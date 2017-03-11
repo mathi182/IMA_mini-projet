@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import ca.ulaval.ima.mp.alarmedeluxe.adapter.PagerAdapter;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
