@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe;
+package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
 public class Alarm {
 
