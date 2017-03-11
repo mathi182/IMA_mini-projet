@@ -8,8 +8,13 @@ import com.astuetz.PagerSlidingTabStrip;
 
 public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
-    private static final String[] TABS_HEADER = {"Home", "YouTube", "Geolocation", "Shaking", "Settings"};
-    private static final int[] TABS_ICONS = {R.drawable.ic_tabs_home, R.drawable.ic_tabs_youtube, R.drawable.ic_tabs_geolocation, R.drawable.ic_tabs_accelerometer, R.drawable.ic_tabs_settings};
+    private static final String[] TABS_HEADER = {"Home", "YouTube", "Geolocation", "Shaking", "Maths", "Settings"};
+    private static final int[] TABS_ICONS = {R.drawable.ic_tabs_home,
+            R.drawable.ic_tabs_youtube,
+            R.drawable.ic_tabs_geolocation,
+            R.drawable.ic_tabs_accelerometer,
+            R.drawable.ic_tabs_maths,
+            R.drawable.ic_tabs_settings};
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -32,8 +37,11 @@ public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTa
                 AccelerometerFragment tab4 = new AccelerometerFragment();
                 return tab4;
             case 4:
-                SettingsFragment tab5 = new SettingsFragment();
+                MathsFragment tab5 = new MathsFragment();
                 return tab5;
+            case 5:
+                SettingsFragment tab6 = new SettingsFragment();
+                return tab6;
             default:
                 return null;
         }
