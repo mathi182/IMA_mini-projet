@@ -2,15 +2,14 @@ package ca.ulaval.ima.mp.alarmedeluxe;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter {
 
-    private int tabsCounts;
+    private static final String[] TABS_HEADER = {"Home", "Settings", "YouTube", "Geolocation", "Shaking"};
 
-    public PagerAdapter(FragmentManager fm, int tabsCounts) {
+    public PagerAdapter(FragmentManager fm) {
         super(fm);
-        this.tabsCounts = tabsCounts;
     }
 
     @Override
@@ -39,6 +38,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return tabsCounts;
+        return TABS_HEADER.length;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        // Generate title based on item position
+        return TABS_HEADER[position];
     }
 }
