@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private static final String[] TABS_HEADER = {"Home", "Settings", "YouTube", "Geolocation", "Shaking"};
+    private static final String[] TABS_HEADER = {"Home", "YouTube", "Geolocation", "Shaking", "Settings"};
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -20,16 +20,16 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 HomeFragment tab1 = new HomeFragment();
                 return tab1;
             case 1:
-                SettingsFragment tab2 = new SettingsFragment();
+                YoutubeFragment tab2 = new YoutubeFragment();
                 return tab2;
             case 2:
-                YoutubeFragment tab3 = new YoutubeFragment();
+                GeolocationFragment tab3 = new GeolocationFragment();
                 return tab3;
             case 3:
-                GeolocationFragment tab4 = new GeolocationFragment();
+                AccelerometerFragment tab4 = new AccelerometerFragment();
                 return tab4;
             case 4:
-                AccelerometerFragment tab5 = new AccelerometerFragment();
+                SettingsFragment tab5 = new SettingsFragment();
                 return tab5;
             default:
                 return null;
@@ -43,7 +43,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        // Generate title based on item position
         return TABS_HEADER[position];
     }
 }
