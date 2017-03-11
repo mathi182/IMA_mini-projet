@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
-    public PagerAdapter(FragmentManager fm) {
+    private int tabsCounts;
+
+    public PagerAdapter(FragmentManager fm, int tabsCounts) {
         super(fm);
+        this.tabsCounts = tabsCounts;
     }
 
     @Override
@@ -20,6 +23,15 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 SettingsFragment tab2 = new SettingsFragment();
                 return tab2;
+            case 2:
+                YoutubeFragment tab3 = new YoutubeFragment();
+                return tab3;
+            case 3:
+                GeolocationFragment tab4 = new GeolocationFragment();
+                return tab4;
+            case 4:
+                AccelerometerFragment tab5 = new AccelerometerFragment();
+                return tab5;
             default:
                 return null;
         }
@@ -27,6 +39,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return tabsCounts;
     }
 }
