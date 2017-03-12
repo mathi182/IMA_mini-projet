@@ -1,9 +1,11 @@
 package ca.ulaval.ima.mp.alarmedeluxe.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ulaval.ima.mp.alarmedeluxe.AlarmMakingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.DividerItemDecoration;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
@@ -50,9 +53,8 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO : This button will need to show up a new page instead of creating an empty alarm
-                alarmList.add(new Alarm());
-                alarmAdapter.notifyItemChanged(alarmList.size() - 1);
+                Intent in = new Intent(getActivity(), AlarmMakingActivity.class);
+                startActivity(in);
             }
         });
     }
