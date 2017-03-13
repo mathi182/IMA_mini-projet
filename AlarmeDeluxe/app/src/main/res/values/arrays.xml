@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_elements">
+        <item>Normal</item>
+        <item>Youtube</item>
+        <item>Shaking</item>
+        <item>Math problems</item>
+        <item>Geolocalisation</item>
+    </string-array>
+</resources>
