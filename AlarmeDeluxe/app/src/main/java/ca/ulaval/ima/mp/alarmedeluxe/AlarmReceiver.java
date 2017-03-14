@@ -1,14 +1,7 @@
 package ca.ulaval.ima.mp.alarmedeluxe;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.util.Log;
 import android.support.v4.content.WakefulBroadcastReceiver;
 /**
  * Created by Jonathan on 3/12/2017.

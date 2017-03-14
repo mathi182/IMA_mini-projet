@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder> {
 

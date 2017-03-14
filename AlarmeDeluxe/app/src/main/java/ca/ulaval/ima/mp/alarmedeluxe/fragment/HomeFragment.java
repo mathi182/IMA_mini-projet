@@ -4,15 +4,12 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +22,10 @@ import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmMakingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmReceiver;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.DividerItemDecoration;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmAdapter;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
 import static android.content.Context.ALARM_SERVICE;
 

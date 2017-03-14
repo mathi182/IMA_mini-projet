@@ -2,16 +2,12 @@ package ca.ulaval.ima.mp.alarmedeluxe;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
-import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
 /**
