@@ -83,6 +83,8 @@ public class HomeFragment extends Fragment {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY,alarm.getHours());
                 calendar.set(Calendar.MINUTE,alarm.getMinutes());
+
+
                 //Log.e(" jour",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
                 Log.e(" hours",String.valueOf(alarm.getHours()));
                 Log.e(" minutes",String.valueOf(alarm.getMinutes()));
@@ -92,6 +94,8 @@ public class HomeFragment extends Fragment {
                 Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
                 Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
                 Log.e("System", String.valueOf(Calendar.getInstance().getTimeInMillis()));
+
+
                 am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
             }
         }

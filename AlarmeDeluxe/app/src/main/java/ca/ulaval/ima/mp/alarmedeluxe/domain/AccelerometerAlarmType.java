@@ -1,9 +1,10 @@
 package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
+import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class AccelerometerAlarmType implements AlarmType {
+public class AccelerometerAlarmType extends Fragment implements AlarmType {
 
     String name;
     int duration;

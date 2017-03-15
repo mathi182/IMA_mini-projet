@@ -1,9 +1,10 @@
 package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
+import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class GeolocationAlarmType implements AlarmType {
+public class GeolocationAlarmType extends Fragment implements AlarmType {
 
     private String name;
     private double longitude;

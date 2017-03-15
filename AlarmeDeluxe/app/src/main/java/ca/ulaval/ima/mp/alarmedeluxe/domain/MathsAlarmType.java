@@ -1,9 +1,10 @@
 package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
+import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MathsAlarmType implements AlarmType {
+public class MathsAlarmType extends Fragment implements AlarmType {
 
     private String name;
 
