@@ -10,10 +10,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-/**
- * Created by Jonathan on 3/12/2017.
- */
-
 public class AlarmDialogPopUp extends AppCompatActivity {
     private int m_alarmId;
     private MediaPlayer mediaPlayer;

@@ -2,10 +2,10 @@ package ca.ulaval.ima.mp.alarmedeluxe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
-/**
- * Created by Jonathan on 3/12/2017.
- */
+
+import static android.content.Context.POWER_SERVICE;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver  {
     @Override
@@ -29,10 +29,14 @@ public class AlarmReceiver extends WakefulBroadcastReceiver  {
         startWakefulService(context, (intent.setComponent(comp)));
         setResultCode(Activity.RESULT_OK);*/
 
+        PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+        screenLock.acquire();
+
         Intent alarmIntent = new Intent(context,AlarmDialogPopUp.class);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         alarmIntent.putExtra("AlarmID", intent.getIntExtra("AlarmID", -1));
         context.startActivity(alarmIntent);
 
+        screenLock.release();
     }
 }

@@ -10,10 +10,6 @@ import android.widget.TimePicker;
 
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
-/**
- * Created by Jonathan on 3/11/2017.
- */
-
 public class AlarmMakingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +27,11 @@ public class AlarmMakingActivity extends AppCompatActivity {
         EditText title = (EditText)rootView.findViewById(R.id.txtTitle);
         EditText description = (EditText)rootView.findViewById(R.id.txtDescription);
 
-
-
         Alarm alarm = new Alarm();
         alarm.setDescription(description.getText().toString());
         alarm.setTitle(title.getText().toString());
         alarm.setHours(timePicker.getCurrentHour());
         alarm.setMinutes(timePicker.getCurrentMinute());
-
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra("alarm", alarm);

@@ -31,10 +31,12 @@ import static android.content.Context.ALARM_SERVICE;
 
 public class HomeFragment extends Fragment {
 
+    private static final int MAKE_NEW_ALARM_REQUEST = 666;
     private RecyclerView alarmRecyclerView;
     private List<Alarm> alarmList = new ArrayList<>();
     private AlarmAdapter alarmAdapter;
     private AlarmManager am;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,14 +63,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(getActivity(), AlarmMakingActivity.class);
-                startActivityForResult(in,666);
+                startActivityForResult(in, MAKE_NEW_ALARM_REQUEST);
             }
         });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 666){
+        if(requestCode == MAKE_NEW_ALARM_REQUEST){
             if(resultCode == getActivity().RESULT_OK){
                 Alarm alarm = data.getExtras().getParcelable("alarm");
                 alarmList.add(alarm);
