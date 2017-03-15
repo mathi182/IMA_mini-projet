@@ -4,14 +4,18 @@ import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import ca.ulaval.ima.mp.alarmedeluxe.R;
+
 public class AccelerometerAlarmType extends Fragment implements AlarmType {
 
     String name;
     int duration;
     int forceNeeded;
+    int logoResource;
 
     public AccelerometerAlarmType() {
         name = "Shaking";
+        logoResource = R.mipmap.ic_accelerometer_dark;
     }
 
     public AccelerometerAlarmType(Parcel in) {
@@ -49,5 +53,10 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType {
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    @Override
+    public int getLogoResource() {
+        return logoResource;
     }
 }

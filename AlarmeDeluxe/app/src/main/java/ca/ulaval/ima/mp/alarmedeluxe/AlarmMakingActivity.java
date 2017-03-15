@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmTypeSpinnerAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AccelerometerAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
@@ -24,7 +28,6 @@ public class AlarmMakingActivity extends AppCompatActivity {
     private TimePicker timePicker;
     private EditText title, description;
     private Spinner alarmTypeSpinner;
-    private ArrayAdapter<AlarmType> spinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +41,16 @@ public class AlarmMakingActivity extends AppCompatActivity {
         // Hides the keyboard when activity starts
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        // TODO: Replace this with a custom class to be more flexible
-        spinnerAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, new AlarmType[] {
-                new StandardAlarmType(),
-                new AccelerometerAlarmType(),
-                new GeolocationAlarmType(),
-                new MathsAlarmType(),
-                new YoutubeAlarmType()
-        });
+        List<AlarmType> alarmTypes = new ArrayList<>();
+        alarmTypes.add(new StandardAlarmType());
+        alarmTypes.add(new AccelerometerAlarmType());
+        alarmTypes.add(new GeolocationAlarmType());
+        alarmTypes.add(new MathsAlarmType());
+        alarmTypes.add(new YoutubeAlarmType());
+
+        AlarmTypeSpinnerAdapter adapter = new AlarmTypeSpinnerAdapter(this, R.layout.alarmtype_spinner_row, alarmTypes);
         alarmTypeSpinner = (Spinner)findViewById(R.id.spinner);
-        alarmTypeSpinner.setAdapter(spinnerAdapter);
+        alarmTypeSpinner.setAdapter(adapter);
     }
 
     public void onButtonClick(View v){

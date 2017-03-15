@@ -5,4 +5,5 @@ import android.os.Parcelable;
 
 public interface AlarmType extends Parcelable {
     Fragment getFragment();
+    int getLogoResource();
 }

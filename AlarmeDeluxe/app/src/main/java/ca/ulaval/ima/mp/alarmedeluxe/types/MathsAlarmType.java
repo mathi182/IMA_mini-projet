@@ -4,12 +4,16 @@ import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import ca.ulaval.ima.mp.alarmedeluxe.R;
+
 public class MathsAlarmType extends Fragment implements AlarmType {
 
     private String name;
+    private int logoResource;
 
     public MathsAlarmType() {
         name = "Maths problem";
+        logoResource = R.mipmap.ic_maths_dark;
     }
 
     public MathsAlarmType(Parcel in) {
@@ -47,5 +51,10 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    @Override
+    public int getLogoResource() {
+        return logoResource;
     }
 }

@@ -20,9 +20,11 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     private MediaPlayer mediaPlayer;
     private Button btn_close;
     private int m_alarmId;
+    private int logoResource;
 
     public StandardAlarmType() {
         name = "Standard";
+        logoResource = R.mipmap.ic_newalarm;
     }
 
     public StandardAlarmType(Parcel in) {
@@ -68,6 +70,11 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    @Override
+    public int getLogoResource() {
+        return logoResource;
     }
 
     @Override

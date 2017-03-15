@@ -4,14 +4,18 @@ import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import ca.ulaval.ima.mp.alarmedeluxe.R;
+
 public class GeolocationAlarmType extends Fragment implements AlarmType {
 
     private String name;
     private double longitude;
     private double latitude;
+    private int logoResource;
 
     public GeolocationAlarmType() {
         name = "Geolocalisation";
+        logoResource = R.mipmap.ic_geolocation_dark;
     }
 
     public GeolocationAlarmType(Parcel in) {
@@ -49,5 +53,10 @@ public class GeolocationAlarmType extends Fragment implements AlarmType {
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    @Override
+    public int getLogoResource() {
+        return logoResource;
     }
 }

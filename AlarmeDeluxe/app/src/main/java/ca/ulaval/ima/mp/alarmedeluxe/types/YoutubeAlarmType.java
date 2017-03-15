@@ -4,13 +4,17 @@ import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import ca.ulaval.ima.mp.alarmedeluxe.R;
+
 public class YoutubeAlarmType extends Fragment implements AlarmType {
 
     private String name;
     private String url;
+    private int logoResource;
 
     public YoutubeAlarmType() {
         name = "YouTube video";
+        logoResource = R.mipmap.ic_youtube_dark;
     }
 
     public YoutubeAlarmType(Parcel in) {
@@ -48,5 +52,10 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    @Override
+    public int getLogoResource() {
+        return logoResource;
     }
 }
