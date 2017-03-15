@@ -13,6 +13,7 @@ public class Alarm implements Parcelable {
     private int hours;
     private int minutes;
     private AlarmType type;
+    private boolean isActive;
 
     public Alarm() {
         title = "Wake up my dear";
@@ -20,6 +21,7 @@ public class Alarm implements Parcelable {
         hours = 7;
         minutes = 30;
         type = new StandardAlarmType();
+        isActive = true;
     }
 
     public Alarm(Parcel parcel){
@@ -27,6 +29,7 @@ public class Alarm implements Parcelable {
         description = parcel.readString();
         hours = parcel.readInt();
         minutes = parcel.readInt();
+        isActive = parcel.readByte() != 0;
         type = parcel.readParcelable(AlarmType.class.getClassLoader());
     }
 
@@ -73,6 +76,13 @@ public class Alarm implements Parcelable {
 
     public void setType(AlarmType alarmType) { this.type = alarmType; }
 
+    public boolean isActive() { return isActive; }
+
+    public void setActive(boolean active) {
+        //TODO : Update alarm manager
+        isActive = active;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,6 +100,7 @@ public class Alarm implements Parcelable {
         dest.writeString(description);
         dest.writeInt(hours);
         dest.writeInt(minutes);
+        dest.writeByte((byte)(isActive ? 1 : 0));
         dest.writeParcelable(type, flags);
     }
 }

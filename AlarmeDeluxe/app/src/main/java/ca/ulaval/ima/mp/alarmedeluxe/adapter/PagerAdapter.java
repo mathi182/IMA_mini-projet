@@ -60,7 +60,6 @@ public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTa
         return TABS_HEADER.length;
     }
 
-
     @Override
     public CharSequence getPageTitle(int position) {
         return TABS_HEADER[position];

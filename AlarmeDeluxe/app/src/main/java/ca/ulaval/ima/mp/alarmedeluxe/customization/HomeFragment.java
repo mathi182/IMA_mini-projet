@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
     private AlarmAdapter alarmAdapter;
     private AlarmManager am;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

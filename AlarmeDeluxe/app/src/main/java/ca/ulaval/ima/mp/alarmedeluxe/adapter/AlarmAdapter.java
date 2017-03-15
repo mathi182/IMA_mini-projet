@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,14 +16,30 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     private List<Alarm> alarms;
 
-    public class AlarmViewHolder extends RecyclerView.ViewHolder {
+    public class AlarmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView alarmTitle, alarmTime;
+        public ImageView alarmToggle;
 
         public AlarmViewHolder(View itemView) {
             super(itemView);
 
             alarmTitle = (TextView)itemView.findViewById(R.id.alarm_title);
             alarmTime = (TextView)itemView.findViewById(R.id.alarm_time);
+            alarmToggle = (ImageView)itemView.findViewById(R.id.alarm_toggle);
+            alarmToggle.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Alarm alarm = alarms.get(this.getAdapterPosition());
+
+            switch (v.getId()) {
+                case R.id.alarm_toggle:
+                    alarm.setActive(!alarm.isActive());
+                    break;
+            }
+
+            notifyItemChanged(getAdapterPosition());
         }
     }
 
@@ -42,6 +59,12 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         Alarm alarm = alarms.get(position);
         holder.alarmTitle.setText(alarm.getTitle());
         holder.alarmTime.setText(alarm.getTime());
+
+        if (alarm.isActive()) {
+            holder.alarmToggle.setImageResource(R.mipmap.ic_activatedclock);
+        } else {
+            holder.alarmToggle.setImageResource(R.mipmap.ic_deactivatedclock);
+        }
     }
 
     @Override
