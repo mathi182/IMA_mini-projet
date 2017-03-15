@@ -1,86 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/header"
+        app:theme="@style/AppTheme.AppBarOverlay"
+        />
 
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/toolbar"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:theme="@style/AppTheme.AppBarOverlay"
-            />
+            android:orientation="vertical">
 
-        <TextView
-            android:text="Select the alarm time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lblTimeSet"
-            android:layout_marginTop="24dp" />
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timePicker" />
 
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/timePicker"
-            android:layout_marginTop="19dp" />
+            <TextView
+                android:text="What will be the alarm's title?"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lblTitle" />
 
-        <TextView
-            android:text="What will be the alarm's title?"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lblTitle" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/txtTitle"
+                android:hint="Title" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/txtTitle"
-            android:hint="Title" />
+            <TextView
+                android:text="Description of the alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lblDescription" />
 
-        <TextView
-            android:text="Description of the alarm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lblDescription" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/txtDescription"
+                android:hint="Description" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/txtDescription"
-            android:hint="Description" />
+            <TextView
+                android:text="Select the type of alarm you want"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lblType" />
 
-        <TextView
-            android:text="Select the type of alarm you want"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lblType" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:entries="@array/spinner_elements"/>
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner"
-            android:entries="@array/spinner_elements"/>
+            <Button
+                android:text="Create Alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCreate"
+                android:onClick="onButtonClick"/>
 
-        <Button
-            android:text="Create Alarm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCreate"
-            android:onClick="onButtonClick"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
 
 
-    </LinearLayout>
-
-
-</ScrollView>
