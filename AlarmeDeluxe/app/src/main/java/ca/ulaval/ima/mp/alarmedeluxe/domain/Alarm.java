@@ -5,23 +5,20 @@ import android.os.Parcelable;
 
 public class Alarm implements Parcelable {
 
-
-
-
     private String title;
     private String description;
-
-
-
     private int hours;
     private int minutes;
+    private AlarmType type;
 
     public Alarm() {
         title = "Wake up my dear";
         description = "I'm a description.";
         hours = 7;
         minutes = 30;
+        type = new StandardAlarmType();
     }
+
     public Alarm(Parcel parcel){
         title = parcel.readString();
         description = parcel.readString();
@@ -52,6 +49,8 @@ public class Alarm implements Parcelable {
         return String.valueOf(hours) + ":" + String.valueOf(minutes);
     }
 
+    public AlarmType getType() { return type; }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -67,6 +66,8 @@ public class Alarm implements Parcelable {
     public void setMinutes(int minutes) {
         this.minutes = minutes;
     }
+
+    public void setType(AlarmType alarmType) { this.type = alarmType; }
 
     @Override
     public int describeContents() {
