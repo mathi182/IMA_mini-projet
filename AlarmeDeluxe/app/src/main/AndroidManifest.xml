@@ -36,7 +36,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ca.ulaval.ima.mp.alarmedeluxe.MainActivity" />
         </activity>
-        <receiver android:name=".AlarmReceiver"/>
+
+        <receiver android:name=".AlarmReceiver" />
+
+        <activity android:name=".AlarmRingingActivity"></activity>
     </application>
 
 </manifest>

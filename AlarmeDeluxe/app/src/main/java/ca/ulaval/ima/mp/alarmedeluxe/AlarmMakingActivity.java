@@ -38,7 +38,8 @@ public class AlarmMakingActivity extends AppCompatActivity {
         // Hides the keyboard when activity starts
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        spinnerAdapter = new ArrayAdapter<AlarmType>(this,
+        // TODO: Replace this with a custom class to be more flexible
+        spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, new AlarmType[] {
                 new StandardAlarmType(),
                 new AccelerometerAlarmType(),
@@ -61,6 +62,7 @@ public class AlarmMakingActivity extends AppCompatActivity {
         alarm.setTitle(title.getText().toString());
         alarm.setHours(timePicker.getCurrentHour());
         alarm.setMinutes(timePicker.getCurrentMinute());
+        alarm.setType((AlarmType)alarmTypeSpinner.getSelectedItem());
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra("alarm", alarm);

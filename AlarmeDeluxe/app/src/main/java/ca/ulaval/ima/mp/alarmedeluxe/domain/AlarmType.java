@@ -1,5 +1,7 @@
 package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
-public interface AlarmType {
+import android.os.Parcelable;
+
+public interface AlarmType extends Parcelable {
 
 }
