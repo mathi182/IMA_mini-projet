@@ -1,12 +1,11 @@
 package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
-public class YoutubeAlarmType implements AlarmType {
+public class StandardAlarmType implements AlarmType {
 
     private String name;
-    private String url;
 
-    public YoutubeAlarmType() {
-        name = "YouTube video";
+    public StandardAlarmType() {
+        name = "Standard";
     }
 
     @Override

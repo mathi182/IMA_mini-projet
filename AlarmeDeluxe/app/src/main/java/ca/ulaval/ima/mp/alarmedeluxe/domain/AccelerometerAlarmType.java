@@ -6,8 +6,12 @@ public class AccelerometerAlarmType implements AlarmType {
     int duration;
     int forceNeeded;
 
+    public AccelerometerAlarmType() {
+        name = "Shaking";
+    }
+
     @Override
-    public String getName() {
+    public String toString() {
         return name;
     }
 }

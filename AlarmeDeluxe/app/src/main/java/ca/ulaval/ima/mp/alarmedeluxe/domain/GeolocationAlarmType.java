@@ -6,8 +6,12 @@ public class GeolocationAlarmType implements AlarmType {
     private double longitude;
     private double latitude;
 
+    public GeolocationAlarmType() {
+        name = "Geolocalisation";
+    }
+
     @Override
-    public String getName() {
+    public String toString() {
         return name;
     }
 }

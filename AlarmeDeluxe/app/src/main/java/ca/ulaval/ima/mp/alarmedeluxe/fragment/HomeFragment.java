@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent in = new Intent(getActivity(), AlarmMakingActivity.class);
                 startActivityForResult(in, MAKE_NEW_ALARM_REQUEST);
+
             }
         });
     }

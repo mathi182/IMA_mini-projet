@@ -4,8 +4,12 @@ public class MathsAlarmType implements AlarmType {
 
     private String name;
 
+    public MathsAlarmType() {
+        name = "Maths problem";
+    }
+
     @Override
-    public String getName() {
+    public String toString() {
         return name;
     }
 }
