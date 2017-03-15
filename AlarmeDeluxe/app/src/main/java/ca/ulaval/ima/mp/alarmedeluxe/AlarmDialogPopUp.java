@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 public class AlarmDialogPopUp extends AppCompatActivity {
     private int m_alarmId;
@@ -21,6 +22,13 @@ public class AlarmDialogPopUp extends AppCompatActivity {
         if (alarmUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         }
+
+        // Show the activity over the lock screen
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
         //Ringtone ringtone = RingtoneManager.getRingtone(this, alarmUri);
         mediaPlayer = MediaPlayer.create(this,alarmUri);
         mediaPlayer.start();

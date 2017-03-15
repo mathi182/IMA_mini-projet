@@ -29,6 +29,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver  {
         startWakefulService(context, (intent.setComponent(comp)));
         setResultCode(Activity.RESULT_OK);*/
 
+        //Turn the screen on when the alarm is ringing
         PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
         screenLock.acquire();
 
