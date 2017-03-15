@@ -7,12 +7,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.astuetz.PagerSlidingTabStrip;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
-import ca.ulaval.ima.mp.alarmedeluxe.fragment.AccelerometerFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.fragment.GeolocationFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.fragment.HomeFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.fragment.MathsFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.fragment.SettingsFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.fragment.YoutubeFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.customization.AccelerometerFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.customization.GeolocationFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.customization.HomeFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.customization.MathsFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.customization.SettingsFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.customization.YoutubeFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 

@@ -11,13 +11,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import ca.ulaval.ima.mp.alarmedeluxe.domain.AccelerometerAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.AlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.GeolocationAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.MathsAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.StandardAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.YoutubeAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.AccelerometerAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.GeolocationAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.MathsAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.YoutubeAlarmType;
 
 public class AlarmMakingActivity extends AppCompatActivity {
 

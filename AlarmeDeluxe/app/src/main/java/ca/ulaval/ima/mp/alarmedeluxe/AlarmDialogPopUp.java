@@ -14,6 +14,7 @@ import android.view.WindowManager;
 public class AlarmDialogPopUp extends AppCompatActivity {
     private int m_alarmId;
     private MediaPlayer mediaPlayer;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

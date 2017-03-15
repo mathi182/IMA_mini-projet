@@ -10,7 +10,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.PagerAdapter;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 
 public class MainActivity extends AppCompatActivity {
 

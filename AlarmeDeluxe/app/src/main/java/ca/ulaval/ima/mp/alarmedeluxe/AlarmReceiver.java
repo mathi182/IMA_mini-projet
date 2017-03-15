@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.PowerManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
+import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
+
 import static android.content.Context.POWER_SERVICE;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver  {
@@ -33,7 +35,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver  {
         PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
         screenLock.acquire();
 
-        Intent alarmIntent = new Intent(context,AlarmDialogPopUp.class);
+        Alarm alarm = intent.getParcelableExtra("alarm");
+        Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
+        alarmIntent.putExtra("alarm", alarm);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         alarmIntent.putExtra("AlarmID", intent.getIntExtra("AlarmID", -1));
         context.startActivity(alarmIntent);

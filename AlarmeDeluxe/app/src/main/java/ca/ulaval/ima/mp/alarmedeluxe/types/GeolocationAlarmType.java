@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.domain;
+package ca.ulaval.ima.mp.alarmedeluxe.types;
 
 import android.app.Fragment;
 import android.os.Parcel;
@@ -45,4 +45,9 @@ public class GeolocationAlarmType extends Fragment implements AlarmType {
             return new GeolocationAlarmType[size];
         }
     };
+
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
 }

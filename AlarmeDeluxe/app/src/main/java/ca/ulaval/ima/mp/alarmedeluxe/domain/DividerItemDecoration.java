@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe;
+package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
 import android.content.Context;
 import android.content.res.TypedArray;

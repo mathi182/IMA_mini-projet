@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.domain;
+package ca.ulaval.ima.mp.alarmedeluxe.types;
 
 import android.app.Fragment;
 import android.os.Parcel;
@@ -45,4 +45,9 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType {
             return new AccelerometerAlarmType[size];
         }
     };
+
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
 }

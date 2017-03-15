@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.fragment;
+package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -22,10 +22,10 @@ import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmMakingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmReceiver;
-import ca.ulaval.ima.mp.alarmedeluxe.DividerItemDecoration;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.DividerItemDecoration;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -78,6 +78,7 @@ public class HomeFragment extends Fragment {
                 alarmAdapter.notifyItemChanged(alarmList.size() - 1);
 
                 Intent in = new Intent(getActivity(), AlarmReceiver.class);
+                in.putExtra("alarm", alarm);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),0,in,PendingIntent.FLAG_UPDATE_CURRENT);
                 am = (AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
                 Calendar calendar = Calendar.getInstance();

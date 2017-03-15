@@ -3,6 +3,9 @@ package ca.ulaval.ima.mp.alarmedeluxe.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
+
 public class Alarm implements Parcelable {
 
     private String title;
@@ -24,6 +27,7 @@ public class Alarm implements Parcelable {
         description = parcel.readString();
         hours = parcel.readInt();
         minutes = parcel.readInt();
+        type = parcel.readParcelable(AlarmType.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Alarm> CREATOR = new Parcelable.Creator<Alarm>() {
@@ -86,5 +90,6 @@ public class Alarm implements Parcelable {
         dest.writeString(description);
         dest.writeInt(hours);
         dest.writeInt(minutes);
+        dest.writeParcelable(type, flags);
     }
 }
