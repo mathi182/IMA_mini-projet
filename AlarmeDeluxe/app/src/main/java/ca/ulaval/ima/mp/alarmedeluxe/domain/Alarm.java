@@ -3,30 +3,34 @@ package ca.ulaval.ima.mp.alarmedeluxe.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
+
 public class Alarm implements Parcelable {
-
-
-
 
     private String title;
     private String description;
-
-
-
     private int hours;
     private int minutes;
+    private AlarmType type;
+    private boolean isActive;
 
     public Alarm() {
         title = "Wake up my dear";
         description = "I'm a description.";
         hours = 7;
         minutes = 30;
+        type = new StandardAlarmType();
+        isActive = true;
     }
+
     public Alarm(Parcel parcel){
         title = parcel.readString();
         description = parcel.readString();
         hours = parcel.readInt();
         minutes = parcel.readInt();
+        isActive = parcel.readByte() != 0;
+        type = parcel.readParcelable(AlarmType.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Alarm> CREATOR = new Parcelable.Creator<Alarm>() {
@@ -52,6 +56,8 @@ public class Alarm implements Parcelable {
         return String.valueOf(hours) + ":" + String.valueOf(minutes);
     }
 
+    public AlarmType getType() { return type; }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -66,6 +72,15 @@ public class Alarm implements Parcelable {
 
     public void setMinutes(int minutes) {
         this.minutes = minutes;
+    }
+
+    public void setType(AlarmType alarmType) { this.type = alarmType; }
+
+    public boolean isActive() { return isActive; }
+
+    public void setActive(boolean active) {
+        //TODO : Update alarm manager
+        isActive = active;
     }
 
     @Override
@@ -85,5 +100,7 @@ public class Alarm implements Parcelable {
         dest.writeString(description);
         dest.writeInt(hours);
         dest.writeInt(minutes);
+        dest.writeByte((byte)(isActive ? 1 : 0));
+        dest.writeParcelable(type, flags);
     }
 }

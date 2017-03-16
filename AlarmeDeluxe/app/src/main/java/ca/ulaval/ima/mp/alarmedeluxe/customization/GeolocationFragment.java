@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.fragment;
+package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

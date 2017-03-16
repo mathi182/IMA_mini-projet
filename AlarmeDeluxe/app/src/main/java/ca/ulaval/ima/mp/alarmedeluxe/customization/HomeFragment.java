@@ -1,18 +1,15 @@
-package ca.ulaval.ima.mp.alarmedeluxe.fragment;
+package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +22,16 @@ import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmMakingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmReceiver;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
-import ca.ulaval.ima.mp.alarmedeluxe.DividerItemDecoration;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmAdapter;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.DividerItemDecoration;
 
 import static android.content.Context.ALARM_SERVICE;
 
 public class HomeFragment extends Fragment {
 
+    private static final int MAKE_NEW_ALARM_REQUEST = 666;
     private RecyclerView alarmRecyclerView;
     private List<Alarm> alarmList = new ArrayList<>();
     private AlarmAdapter alarmAdapter;
@@ -42,7 +40,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view =inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         return view;
     }
@@ -64,25 +62,29 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(getActivity(), AlarmMakingActivity.class);
-                startActivityForResult(in,666);
+                startActivityForResult(in, MAKE_NEW_ALARM_REQUEST);
+
             }
         });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 666){
+        if(requestCode == MAKE_NEW_ALARM_REQUEST){
             if(resultCode == getActivity().RESULT_OK){
                 Alarm alarm = data.getExtras().getParcelable("alarm");
                 alarmList.add(alarm);
                 alarmAdapter.notifyItemChanged(alarmList.size() - 1);
 
                 Intent in = new Intent(getActivity(), AlarmReceiver.class);
+                in.putExtra("alarm", alarm);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),0,in,PendingIntent.FLAG_UPDATE_CURRENT);
                 am = (AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY,alarm.getHours());
                 calendar.set(Calendar.MINUTE,alarm.getMinutes());
+
+
                 //Log.e(" jour",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
                 Log.e(" hours",String.valueOf(alarm.getHours()));
                 Log.e(" minutes",String.valueOf(alarm.getMinutes()));
@@ -92,6 +94,8 @@ public class HomeFragment extends Fragment {
                 Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
                 Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
                 Log.e("System", String.valueOf(Calendar.getInstance().getTimeInMillis()));
+
+
                 am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
             }
         }

@@ -1,18 +1,13 @@
 package ca.ulaval.ima.mp.alarmedeluxe;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.util.Log;
+import android.os.PowerManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
-/**
- * Created by Jonathan on 3/12/2017.
- */
+
+import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
+
+import static android.content.Context.POWER_SERVICE;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver  {
     @Override
@@ -36,10 +31,17 @@ public class AlarmReceiver extends WakefulBroadcastReceiver  {
         startWakefulService(context, (intent.setComponent(comp)));
         setResultCode(Activity.RESULT_OK);*/
 
-        Intent alarmIntent = new Intent(context,AlarmDialogPopUp.class);
+        //Turn the screen on when the alarm is ringing
+        PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+        screenLock.acquire();
+
+        Alarm alarm = intent.getParcelableExtra("alarm");
+        Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
+        alarmIntent.putExtra("alarm", alarm);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         alarmIntent.putExtra("AlarmID", intent.getIntExtra("AlarmID", -1));
         context.startActivity(alarmIntent);
 
+        screenLock.release();
     }
 }

@@ -7,9 +7,14 @@ import android.support.v7.widget.Toolbar;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import java.util.List;
+
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.PagerAdapter;
+import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 
 public class MainActivity extends AppCompatActivity {
+
+    private List<AlarmType> alarmTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setViewPager(viewPager);
+
+
     }
 }
