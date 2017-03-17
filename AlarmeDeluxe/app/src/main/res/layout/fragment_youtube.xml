@@ -4,11 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ca.ulaval.ima.mp.alarmedeluxe.customization.YoutubeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello_youtube_fragment" />
+        android:layout_height="match_parent">
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/connection_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="hello_youtube_fragment" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Log out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_out_button"
+            android:visibility="gone"
+            android:layout_marginTop="19dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/sign_in_button"
+            android:layout_toEndOf="@+id/sign_in_button" />
+
+
+    </RelativeLayout>
+
 
 </FrameLayout>

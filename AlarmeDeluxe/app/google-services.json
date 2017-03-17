@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "752816531302",
+    "project_id": "alarmedeluxe"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752816531302:android:76e7abafe3faff56",
+        "android_client_info": {
+          "package_name": "ca.ulaval.ima.mp.alarmedeluxe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "752816531302-sfdbb9v3etfl3fnrp32u9mgpunss3hat.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.ulaval.ima.mp.alarmedeluxe",
+            "certificate_hash": "034d56d8605c68ac56b0fd33da2bf5c5247884b1"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhX6pNalo-Kv9l8_mMNInO6RpXDZw3dO0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
