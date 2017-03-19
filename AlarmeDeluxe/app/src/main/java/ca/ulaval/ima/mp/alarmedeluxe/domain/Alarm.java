@@ -8,28 +8,35 @@ import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
 
 public class Alarm implements Parcelable {
 
+    private int id;
     private String title;
     private String description;
     private int hours;
     private int minutes;
     private AlarmType type;
     private boolean isActive;
+    private boolean isRepeating;
 
     public Alarm() {
+        //TODO : Devra être incrémenté dans la BD et non setté
+        id = 0;
         title = "Wake up my dear";
         description = "I'm a description.";
         hours = 7;
         minutes = 30;
         type = new StandardAlarmType();
         isActive = true;
+        isRepeating = false;
     }
 
     public Alarm(Parcel parcel){
+        id = parcel.readInt();
         title = parcel.readString();
         description = parcel.readString();
         hours = parcel.readInt();
         minutes = parcel.readInt();
         isActive = parcel.readByte() != 0;
+        isRepeating = parcel.readByte() != 0;
         type = parcel.readParcelable(AlarmType.class.getClassLoader());
     }
 
@@ -53,7 +60,14 @@ public class Alarm implements Parcelable {
     }
 
     public String getTime() {
+        if (minutes < 10) {
+            return String.valueOf(hours) + ":0" + String.valueOf(minutes);
+        }
         return String.valueOf(hours) + ":" + String.valueOf(minutes);
+    }
+
+    public int getId() {
+        return id;
     }
 
     public AlarmType getType() { return type; }
@@ -96,11 +110,13 @@ public class Alarm implements Parcelable {
     }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeInt(hours);
         dest.writeInt(minutes);
         dest.writeByte((byte)(isActive ? 1 : 0));
+        dest.writeByte((byte)(isRepeating ? 1 : 0));
         dest.writeParcelable(type, flags);
     }
 }

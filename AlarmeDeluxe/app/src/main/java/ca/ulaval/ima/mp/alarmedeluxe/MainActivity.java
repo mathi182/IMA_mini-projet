@@ -12,6 +12,8 @@ import java.util.List;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.PagerAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 
+import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.createAlarmManager;
+
 public class MainActivity extends AppCompatActivity {
 
     private List<AlarmType> alarmTypes;
@@ -30,6 +32,6 @@ public class MainActivity extends AppCompatActivity {
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setViewPager(viewPager);
 
-
+        createAlarmManager(this);
     }
 }

@@ -1,5 +1,9 @@
 package ca.ulaval.ima.mp.alarmedeluxe.adapter;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +13,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import ca.ulaval.ima.mp.alarmedeluxe.AlarmReceiver;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
+
+import static android.content.Context.ALARM_SERVICE;
+import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder> {
 
     private List<Alarm> alarms;
+    private  Activity activity;
 
     public class AlarmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView alarmTitle, alarmTime;
@@ -36,6 +45,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             switch (v.getId()) {
                 case R.id.alarm_toggle:
                     alarm.setActive(!alarm.isActive());
+                    updateAlarmManager(alarm);
                     break;
             }
 
@@ -43,8 +53,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         }
     }
 
-    public AlarmAdapter(List<Alarm> alarms) {
+    public AlarmAdapter(List<Alarm> alarms, Activity activity) {
         this.alarms = alarms;
+        this.activity = activity;
     }
 
     @Override
@@ -71,6 +82,4 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     public int getItemCount() {
         return alarms.size();
     }
-
-
 }

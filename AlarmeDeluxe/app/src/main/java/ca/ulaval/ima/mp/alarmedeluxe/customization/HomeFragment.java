@@ -28,6 +28,7 @@ import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.DividerItemDecoration;
 
 import static android.content.Context.ALARM_SERVICE;
+import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
 
 public class HomeFragment extends Fragment {
 
@@ -49,7 +50,7 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        alarmAdapter = new AlarmAdapter(alarmList);
+        alarmAdapter = new AlarmAdapter(alarmList, getActivity());
         alarmRecyclerView = (RecyclerView)getActivity().findViewById(R.id.list_alarms);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         alarmRecyclerView.setLayoutManager(layoutManager);
@@ -75,28 +76,7 @@ public class HomeFragment extends Fragment {
                 Alarm alarm = data.getExtras().getParcelable("alarm");
                 alarmList.add(alarm);
                 alarmAdapter.notifyItemChanged(alarmList.size() - 1);
-
-                Intent in = new Intent(getActivity(), AlarmReceiver.class);
-                in.putExtra("alarm", alarm);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),0,in,PendingIntent.FLAG_UPDATE_CURRENT);
-                am = (AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY,alarm.getHours());
-                calendar.set(Calendar.MINUTE,alarm.getMinutes());
-
-
-                //Log.e(" jour",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-                Log.e(" hours",String.valueOf(alarm.getHours()));
-                Log.e(" minutes",String.valueOf(alarm.getMinutes()));
-                Log.e("calendar jour",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-                Log.e("calendar hours",String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
-                Log.e("calendar minutes",String.valueOf(calendar.get(Calendar.MINUTE)));
-                Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
-                Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
-                Log.e("System", String.valueOf(Calendar.getInstance().getTimeInMillis()));
-
-
-                am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+                updateAlarmManager(alarm);
             }
         }
 
