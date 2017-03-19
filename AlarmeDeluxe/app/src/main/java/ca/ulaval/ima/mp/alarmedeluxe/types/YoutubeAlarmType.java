@@ -1,10 +1,14 @@
 package ca.ulaval.ima.mp.alarmedeluxe.types;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+
 import ca.ulaval.ima.mp.alarmedeluxe.R;
+import ca.ulaval.ima.mp.alarmedeluxe.YoutubeAlarmActivity;
 
 public class YoutubeAlarmType extends Fragment implements AlarmType {
 
@@ -55,6 +59,11 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    @Override
+    public Activity getAlarmActivity(){
+        return new YoutubeAlarmActivity();
     }
 
     @Override

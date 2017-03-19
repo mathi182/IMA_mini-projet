@@ -95,9 +95,9 @@ public class Alarm implements Parcelable {
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
 
-        if (calendar.compareTo(Calendar.getInstance()) <= 0) {
+        /*if (calendar.compareTo(Calendar.getInstance()) <= 0) {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
+        }*/
     }
 
     public boolean[] getDays() {

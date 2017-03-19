@@ -6,6 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="server_client_id">752816531302-pppse353dt09jccnp5k1arvkrf578aa2.apps.googleusercontent.com</string>
     <string name="server_client_id2">752816531302-sfdbb9v3etfl3fnrp32u9mgpunss3hat.apps.googleusercontent.com</string>
+    <string name="api_key">AIzaSyAhX6pNalo-Kv9l8_mMNInO6RpXDZw3dO0</string>
     <string name="signed_in_fmt">Signed in as: %s</string>
     <string name="signed_out">Signed out</string>
 </resources>

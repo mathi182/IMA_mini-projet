@@ -36,7 +36,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver  {
         screenLock.acquire();
 
         Alarm alarm = intent.getParcelableExtra("alarm");
-        Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
+        Intent alarmIntent = new Intent(context, alarm.getType().getAlarmActivity().getClass());
         alarmIntent.putExtra("alarm", alarm);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         alarmIntent.putExtra("AlarmID", intent.getIntExtra("AlarmID", -1));

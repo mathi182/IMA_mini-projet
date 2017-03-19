@@ -32,7 +32,8 @@
 
         <receiver android:name=".AlarmReceiver" />
 
-        <activity android:name=".AlarmRingingActivity"></activity>
+        <activity android:name=".AlarmRingingActivity"/>
+        <activity android:name=".YoutubeAlarmActivity"/>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.alarmedeluxe.types;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class StandardAlarmType extends Fragment implements AlarmType {
@@ -73,6 +75,11 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    @Override
+    public Activity getAlarmActivity() {
+        return new AlarmRingingActivity();
     }
 
     @Override
