@@ -3,6 +3,9 @@ package ca.ulaval.ima.mp.alarmedeluxe.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Time;
+import java.util.Calendar;
+
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
 
@@ -11,30 +14,29 @@ public class Alarm implements Parcelable {
     private int id;
     private String title;
     private String description;
-    private int hours;
-    private int minutes;
     private AlarmType type;
     private boolean isActive;
     private boolean isRepeating;
+    private Calendar calendar;
 
     public Alarm() {
         //TODO : Devra être incrémenté dans la BD et non setté
         id = 0;
         title = "Wake up my dear";
         description = "I'm a description.";
-        hours = 7;
-        minutes = 30;
         type = new StandardAlarmType();
         isActive = true;
         isRepeating = false;
+        calendar = Calendar.getInstance();
     }
 
     public Alarm(Parcel parcel){
+        calendar = Calendar.getInstance();
+
         id = parcel.readInt();
         title = parcel.readString();
         description = parcel.readString();
-        hours = parcel.readInt();
-        minutes = parcel.readInt();
+        calendar.setTimeInMillis(parcel.readLong());
         isActive = parcel.readByte() != 0;
         isRepeating = parcel.readByte() != 0;
         type = parcel.readParcelable(AlarmType.class.getClassLoader());
@@ -59,11 +61,15 @@ public class Alarm implements Parcelable {
         return description;
     }
 
-    public String getTime() {
-        if (minutes < 10) {
-            return String.valueOf(hours) + ":0" + String.valueOf(minutes);
+    public String getStringTime() {
+        if (calendar.get(Calendar.MINUTE) < 10) {
+            return calendar.get(Calendar.HOUR_OF_DAY) + ":0" + calendar.get(Calendar.MINUTE);
         }
-        return String.valueOf(hours) + ":" + String.valueOf(minutes);
+        return calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+    }
+
+    public Calendar getTime() {
+        return calendar;
     }
 
     public int getId() {
@@ -80,12 +86,18 @@ public class Alarm implements Parcelable {
         this.description = description;
     }
 
-    public void setHours(int hours) {
-        this.hours = hours;
+    public void setTime(Calendar calendar) {
+        this.calendar = calendar;
     }
 
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
+    public void setTime(int hours, int minutes) {
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE, minutes);
+
+        if (calendar.compareTo(Calendar.getInstance()) <= 0) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
     }
 
     public void setType(AlarmType alarmType) { this.type = alarmType; }
@@ -101,20 +113,12 @@ public class Alarm implements Parcelable {
     public int describeContents() {
         return 0;
     }
-    public int getHours() {
-        return hours;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeInt(hours);
-        dest.writeInt(minutes);
+        dest.writeLong(calendar.getTimeInMillis());
         dest.writeByte((byte)(isActive ? 1 : 0));
         dest.writeByte((byte)(isRepeating ? 1 : 0));
         dest.writeParcelable(type, flags);

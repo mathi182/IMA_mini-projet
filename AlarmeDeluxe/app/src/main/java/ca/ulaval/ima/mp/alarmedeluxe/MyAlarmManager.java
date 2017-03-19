@@ -5,8 +5,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 
-import java.util.Calendar;
-
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -31,18 +29,7 @@ public final class MyAlarmManager {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mainActivity,alarm.getId(),in,PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (alarm.isActive()) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, alarm.getHours());
-            calendar.set(Calendar.MINUTE, alarm.getMinutes());
-
-            Calendar now = Calendar.getInstance();
-            if (alarm.getHours() >= now.get(Calendar.HOUR_OF_DAY)) {
-                if (alarm.getMinutes() > now.get(Calendar.MINUTE) + 2) {
-                    calendar.set(Calendar.MINUTE, alarm.getMinutes() - 1);
-                }
-            }
-
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(), pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);
         }

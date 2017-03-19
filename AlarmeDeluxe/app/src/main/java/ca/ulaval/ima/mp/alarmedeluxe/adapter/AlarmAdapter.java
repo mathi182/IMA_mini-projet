@@ -1,9 +1,6 @@
 package ca.ulaval.ima.mp.alarmedeluxe.adapter;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +10,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.ulaval.ima.mp.alarmedeluxe.AlarmReceiver;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
-import static android.content.Context.ALARM_SERVICE;
 import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder> {
@@ -69,7 +64,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     public void onBindViewHolder(AlarmViewHolder holder, int position) {
         Alarm alarm = alarms.get(position);
         holder.alarmTitle.setText(alarm.getTitle());
-        holder.alarmTime.setText(alarm.getTime());
+        holder.alarmTime.setText(alarm.getStringTime());
 
         if (alarm.isActive()) {
             holder.alarmToggle.setImageResource(R.mipmap.ic_activatedclock);

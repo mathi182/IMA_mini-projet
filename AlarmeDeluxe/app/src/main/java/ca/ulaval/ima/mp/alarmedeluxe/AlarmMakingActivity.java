@@ -62,8 +62,7 @@ public class AlarmMakingActivity extends AppCompatActivity {
         Alarm alarm = new Alarm();
         alarm.setDescription(description.getText().toString());
         alarm.setTitle(title.getText().toString());
-        alarm.setHours(timePicker.getCurrentHour());
-        alarm.setMinutes(timePicker.getCurrentMinute());
+        alarm.setTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
         alarm.setType((AlarmType)alarmTypeSpinner.getSelectedItem());
 
         Intent resultIntent = new Intent();
