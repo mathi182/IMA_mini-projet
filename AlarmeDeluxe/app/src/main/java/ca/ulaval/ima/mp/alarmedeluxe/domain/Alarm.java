@@ -9,6 +9,8 @@ import java.util.Calendar;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
 
+import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
+
 public class Alarm implements Parcelable {
 
     private int id;
@@ -105,8 +107,13 @@ public class Alarm implements Parcelable {
     public boolean isActive() { return isActive; }
 
     public void setActive(boolean active) {
-        //TODO : Update alarm manager
         isActive = active;
+
+        if (calendar.compareTo(Calendar.getInstance()) <= 0) {
+            setTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        }
+
+        updateAlarmManager(this);
     }
 
     @Override
