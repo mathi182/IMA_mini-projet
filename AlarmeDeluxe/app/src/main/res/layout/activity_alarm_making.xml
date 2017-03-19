@@ -15,7 +15,7 @@
         app:theme="@style/AppTheme.AppBarOverlay"
         />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent" android:layout_height="wrap_content">
 
         <LinearLayout
@@ -28,11 +28,76 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/timePicker" />
 
-            <TextView
-                android:text="What will be the alarm's title?"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblTitle" />
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <ToggleButton
+                    android:text="S"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_sunday"
+                    android:layout_weight="1"
+                    android:textOff="S"
+                    android:textOn="S" />
+
+                <ToggleButton
+                    android:text="M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_monday"
+                    android:layout_weight="1"
+                    android:textOff="M"
+                    android:textOn="M" />
+
+                <ToggleButton
+                    android:text="T"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_tuesday"
+                    android:layout_weight="1"
+                    android:textOff="T"
+                    android:textOn="T" />
+
+                <ToggleButton
+                    android:text="W"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_wednesday"
+                    android:layout_weight="1"
+                    android:textOff="W"
+                    android:textOn="W" />
+
+                <ToggleButton
+                    android:text="T"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_thursday"
+                    android:layout_weight="1"
+                    android:textOff="T"
+                    android:textOn="T" />
+
+                <ToggleButton
+                    android:text="F"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_friday"
+                    android:layout_weight="1"
+                    android:textOff="F"
+                    android:textOn="F" />
+
+                <ToggleButton
+                    android:text="S"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_saturday"
+                    android:layout_weight="1"
+                    android:textOff="S"
+                    android:textOn="S" />
+            </LinearLayout>
 
             <EditText
                 android:layout_width="match_parent"
@@ -40,13 +105,9 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/txtTitle"
-                android:hint="Title" />
-
-            <TextView
-                android:text="Description of the alarm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblDescription" />
+                android:hint="Title"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -54,18 +115,16 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/txtDescription"
-                android:hint="Description" />
-
-            <TextView
-                android:text="Select the type of alarm you want"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblType" />
+                android:hint="Description"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner" />
+                android:id="@+id/spinner"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp" />
 
             <Button
                 android:text="Create Alarm"
