@@ -27,7 +27,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
         logoResource = R.mipmap.ic_newalarm;
     }
 
-    public StandardAlarmType(Parcel in) {
+    public void buildFromParcel(Parcel in) {
         name = in.readString();
     }
 
@@ -58,7 +58,10 @@ public class StandardAlarmType extends Fragment implements AlarmType {
 
         @Override
         public StandardAlarmType createFromParcel(Parcel source) {
-            return new StandardAlarmType(source);
+            StandardAlarmType alarmType = new StandardAlarmType();
+            alarmType.buildFromParcel(source);
+
+            return alarmType;
         }
 
         @Override

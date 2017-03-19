@@ -18,7 +18,7 @@ public class GeolocationAlarmType extends Fragment implements AlarmType {
         logoResource = R.mipmap.ic_geolocation_dark;
     }
 
-    public GeolocationAlarmType(Parcel in) {
+    public void buildFromParcel(Parcel in) {
 
     }
 
@@ -41,7 +41,10 @@ public class GeolocationAlarmType extends Fragment implements AlarmType {
 
         @Override
         public GeolocationAlarmType createFromParcel(Parcel source) {
-            return new GeolocationAlarmType(source);
+            GeolocationAlarmType alarmType = new GeolocationAlarmType();
+            alarmType.buildFromParcel(source);
+
+            return alarmType;
         }
 
         @Override

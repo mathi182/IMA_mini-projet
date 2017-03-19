@@ -16,7 +16,7 @@ public class MathsAlarmType extends Fragment implements AlarmType {
         logoResource = R.mipmap.ic_maths_dark;
     }
 
-    public MathsAlarmType(Parcel in) {
+    public void buildFromParcel(Parcel in) {
 
     }
 
@@ -39,7 +39,10 @@ public class MathsAlarmType extends Fragment implements AlarmType {
 
         @Override
         public MathsAlarmType createFromParcel(Parcel source) {
-            return new MathsAlarmType(source);
+            MathsAlarmType alarmType = new MathsAlarmType();
+            alarmType.buildFromParcel(source);
+
+            return alarmType;
         }
 
         @Override

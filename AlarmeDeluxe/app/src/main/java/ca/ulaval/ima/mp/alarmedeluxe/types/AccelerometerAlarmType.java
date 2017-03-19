@@ -18,7 +18,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType {
         logoResource = R.mipmap.ic_accelerometer_dark;
     }
 
-    public AccelerometerAlarmType(Parcel in) {
+    public void buildFromParcel(Parcel in) {
 
     }
 
@@ -41,7 +41,10 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType {
 
         @Override
         public AccelerometerAlarmType createFromParcel(Parcel source) {
-            return new AccelerometerAlarmType(source);
+            AccelerometerAlarmType alarmType = new AccelerometerAlarmType();
+            alarmType.buildFromParcel(source);
+
+            return alarmType;
         }
 
         @Override

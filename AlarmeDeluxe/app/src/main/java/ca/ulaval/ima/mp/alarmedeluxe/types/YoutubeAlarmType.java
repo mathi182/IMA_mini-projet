@@ -17,7 +17,7 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
         logoResource = R.mipmap.ic_youtube_dark;
     }
 
-    public YoutubeAlarmType(Parcel in) {
+    public void buildFromParcel(Parcel in) {
 
     }
 
@@ -40,7 +40,10 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
 
         @Override
         public YoutubeAlarmType createFromParcel(Parcel source) {
-            return new YoutubeAlarmType(source);
+            YoutubeAlarmType alarmType = new YoutubeAlarmType();
+            alarmType.buildFromParcel(source);
+
+            return alarmType;
         }
 
         @Override
