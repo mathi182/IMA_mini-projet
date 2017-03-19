@@ -4,7 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
@@ -20,6 +22,7 @@ public class Alarm implements Parcelable {
     private boolean isActive;
     private boolean isRepeating;
     private Calendar calendar;
+    private boolean[] days;
 
     public Alarm() {
         //TODO : Devra être incrémenté dans la BD et non setté
@@ -30,6 +33,7 @@ public class Alarm implements Parcelable {
         isActive = true;
         isRepeating = false;
         calendar = Calendar.getInstance();
+        days = new boolean[]{false, false, false, false, false, false, false};
     }
 
     public Alarm(Parcel parcel){
@@ -41,6 +45,7 @@ public class Alarm implements Parcelable {
         calendar.setTimeInMillis(parcel.readLong());
         isActive = parcel.readByte() != 0;
         isRepeating = parcel.readByte() != 0;
+        days = parcel.createBooleanArray();
         type = parcel.readParcelable(AlarmType.class.getClassLoader());
     }
 
@@ -55,12 +60,23 @@ public class Alarm implements Parcelable {
             return new Alarm[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
         return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getStringTime() {
@@ -74,24 +90,6 @@ public class Alarm implements Parcelable {
         return calendar;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public AlarmType getType() { return type; }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setTime(Calendar calendar) {
-        this.calendar = calendar;
-    }
-
     public void setTime(int hours, int minutes) {
         calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hours);
@@ -102,6 +100,22 @@ public class Alarm implements Parcelable {
         }
     }
 
+    public boolean[] getDays() {
+        return days;
+    }
+    public void setDays(boolean[] days) {
+        this.days = days;
+
+        for (boolean b : days) {
+            if (b) {
+                isRepeating = true;
+                break;
+            }
+        }
+        isRepeating = false;
+    }
+
+    public AlarmType getType() { return type; }
     public void setType(AlarmType alarmType) { this.type = alarmType; }
 
     public boolean isActive() { return isActive; }
@@ -128,6 +142,7 @@ public class Alarm implements Parcelable {
         dest.writeLong(calendar.getTimeInMillis());
         dest.writeByte((byte)(isActive ? 1 : 0));
         dest.writeByte((byte)(isRepeating ? 1 : 0));
+        dest.writeBooleanArray(days);
         dest.writeParcelable(type, flags);
     }
 }
