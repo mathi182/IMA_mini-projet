@@ -21,6 +21,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.api.services.youtube.YouTube;
+
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
@@ -64,6 +66,7 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             updateUI(true);
         } else {
