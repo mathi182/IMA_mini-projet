@@ -2,18 +2,45 @@ package ca.ulaval.ima.mp.alarmedeluxe.types;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.hardware.SensorEventListener;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
-public class AccelerometerAlarmType extends Fragment implements AlarmType {
+public class AccelerometerAlarmType extends Fragment implements AlarmType, SensorEventListener {
 
-    String name;
-    int duration;
-    int forceNeeded;
-    int logoResource;
+    private String name;
+    private int duration;
+    private int forceNeeded;
+    private int logoResource;
+    private SensorManager mySensorManager;
+    /* Here we store the current values of acceleration, one for each axis */
+    private float xAccel;
+    private float yAccel;
+    private float zAccel;
+    /* And here the previous ones */
+    private float xPreviousAccel;
+    private float yPreviousAccel;
+    private float zPreviousAccel;
+    /* Used to suppress the first shaking */
+    private boolean firstUpdate = true;
+    /*What acceleration difference would we assume as a rapid movement? */
+    private final float shakeThreshold = 1.5f;
+    /* Has a shaking motion been started (one direction) */
+    private boolean shakeInitiated = false;
+    private ProgressBar progressBar;
 
     public AccelerometerAlarmType() {
         name = "Shaking";
@@ -22,6 +49,14 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType {
 
     public void buildFromParcel(Parcel in) {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_accelerometer, container, false);
+
+        return view;
     }
 
     @Override
@@ -68,5 +103,58 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType {
     @Override
     public int getLogoResource() {
         return logoResource;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        updateAccelParameters(event.values[0], event.values[1], event.values[2]);
+        if ((!shakeInitiated) && isAccelerationChanged()) {
+            shakeInitiated = true;
+        } else if ((shakeInitiated) && isAccelerationChanged()) {
+            executeShakeAction();
+        } else if ((shakeInitiated) && (!isAccelerationChanged())) {
+            shakeInitiated = false;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        progressBar = (ProgressBar)getActivity().findViewById(R.id.shaking_progressBar);
+        mySensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        mySensorManager.registerListener(this, mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private void updateAccelParameters(float xNewAccel, float yNewAccel, float zNewAccel) {
+        if (firstUpdate) {
+            xPreviousAccel = xNewAccel;
+            yPreviousAccel = yNewAccel;
+            zPreviousAccel = zNewAccel;
+            firstUpdate = false;
+        } else {
+            xPreviousAccel = xAccel;
+            yPreviousAccel = yAccel;
+            zPreviousAccel = zAccel;
+        }
+        xAccel = xNewAccel;
+        yAccel = yNewAccel;
+        zAccel = zNewAccel;
+    }
+
+    private boolean isAccelerationChanged() {
+        float deltaX = Math.abs(xPreviousAccel - xAccel);
+        float deltaY = Math.abs(yPreviousAccel - yAccel);
+        float deltaZ = Math.abs(zPreviousAccel - zAccel);
+        return (deltaX > shakeThreshold && deltaY > shakeThreshold)
+                || (deltaX > shakeThreshold && deltaZ > shakeThreshold)
+                || (deltaY > shakeThreshold && deltaZ > shakeThreshold);
+    }
+
+    private void executeShakeAction() {
+		progressBar.setProgress(progressBar.getProgress() + 2);
     }
 }

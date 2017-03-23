@@ -3,10 +3,7 @@ package ca.ulaval.ima.mp.alarmedeluxe.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
