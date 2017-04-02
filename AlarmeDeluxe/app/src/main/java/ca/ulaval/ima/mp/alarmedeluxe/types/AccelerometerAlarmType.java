@@ -6,6 +6,9 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -41,6 +44,8 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     /* Has a shaking motion been started (one direction) */
     private boolean shakeInitiated = false;
     private ProgressBar progressBar;
+    private Activity activity;
+    private MediaPlayer mediaPlayer;
 
     public AccelerometerAlarmType() {
         name = "Shaking";
@@ -118,6 +123,12 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+    }
+
+    @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
@@ -127,6 +138,15 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
         progressBar = (ProgressBar)getActivity().findViewById(R.id.shaking_progressBar);
         mySensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         mySensorManager.registerListener(this, mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_NORMAL);
+
+        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (alarmUri == null) {
+            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        }
+
+        //Ringtone ringtone = RingtoneManager.getRingtone(this, alarmUri);
+        mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(),alarmUri);
+        mediaPlayer.start();
     }
 
     private void updateAccelParameters(float xNewAccel, float yNewAccel, float zNewAccel) {
@@ -156,5 +176,13 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
 
     private void executeShakeAction() {
 		progressBar.setProgress(progressBar.getProgress() + 2);
+
+        if (progressBar.getProgress() == 100) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+            }
+            activity.finish();
+        }
     }
 }
