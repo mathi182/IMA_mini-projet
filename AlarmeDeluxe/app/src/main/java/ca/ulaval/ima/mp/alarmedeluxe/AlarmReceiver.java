@@ -35,7 +35,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver  {
         PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
         screenLock.acquire();
 
-        Alarm alarm = intent.getParcelableExtra("alarm");
+        Alarm alarm = ParcelableUtil.unmarshall(intent.getByteArrayExtra("alarm"), Alarm.CREATOR);
         Intent alarmIntent = new Intent(context, alarm.getType().getAlarmActivity().getClass());
         alarmIntent.putExtra("alarm", alarm);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -25,7 +25,8 @@ public final class MyAlarmManager {
 
     public static void updateAlarmManager(Alarm alarm) {
         Intent in = new Intent(mainActivity, AlarmReceiver.class);
-        in.putExtra("alarm", alarm);
+        byte[] alarmBytes = ParcelableUtil.marshall(alarm);
+        in.putExtra("alarm", alarmBytes);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mainActivity,alarm.getId(),in,PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (alarm.isActive()) {
