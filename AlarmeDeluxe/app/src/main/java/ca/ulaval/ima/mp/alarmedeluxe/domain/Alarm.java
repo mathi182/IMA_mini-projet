@@ -142,4 +142,8 @@ public class Alarm implements Parcelable {
         dest.writeBooleanArray(days);
         dest.writeParcelable(type, flags);
     }
+
+    public void stop() {
+        type.stop();
+    }
 }

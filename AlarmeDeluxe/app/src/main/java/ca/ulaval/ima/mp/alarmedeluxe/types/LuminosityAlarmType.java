@@ -83,6 +83,14 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     }
 
     @Override
+    public void stop() {
+        sensorManager.unregisterListener(this);
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        activity.finish();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -126,10 +134,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
             lightStrength = 360 - lightStrengthAtStart;
         }
         if (event.values[0] >= lightStrengthAtStart + lightStrength) {
-            sensorManager.unregisterListener(this);
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            activity.finish();
+            stop();
         }
     }
 

@@ -88,6 +88,13 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public void stop() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        getActivity().finish();
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -111,9 +118,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
         btn_close = (Button)getActivity().findViewById(R.id.btn_close);
         btn_close.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                getActivity().finish();
+                stop();
             }
         });
     }

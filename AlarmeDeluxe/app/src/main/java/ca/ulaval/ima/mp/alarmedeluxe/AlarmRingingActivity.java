@@ -6,12 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 
     private Alarm alarm;
+    private boolean backPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +35,16 @@ public class AlarmRingingActivity extends AppCompatActivity {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.alarm_ringing_frame, alarm.getType().getFragment());
         ft.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressed) {
+            alarm.stop();
+            finish(); //TODO: Snooze the alarm
+        } else {
+            backPressed = true;
+            Toast.makeText(this, "Appuyez de nouveau pour retarder l'alarme.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

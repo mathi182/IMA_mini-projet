@@ -8,4 +8,5 @@ public interface AlarmType extends Parcelable {
     Fragment getFragment();
     Activity getAlarmActivity();
     int getLogoResource();
+    void stop();
 }

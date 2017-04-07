@@ -111,6 +111,14 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     }
 
     @Override
+    public void stop() {
+        mySensorManager.unregisterListener(this);
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        activity.finish();
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
         updateAccelParameters(event.values[0], event.values[1], event.values[2]);
         if ((!shakeInitiated) && isAccelerationChanged()) {
@@ -178,10 +186,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
 		progressBar.setProgress(progressBar.getProgress() + 2);
 
         if (progressBar.getProgress() == 100) {
-            mySensorManager.unregisterListener(this);
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            activity.finish();
+            stop();
         }
     }
 }

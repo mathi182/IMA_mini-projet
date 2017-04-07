@@ -67,4 +67,9 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     public int getLogoResource() {
         return logoResource;
     }
+
+    @Override
+    public void stop() {
+
+    }
 }
