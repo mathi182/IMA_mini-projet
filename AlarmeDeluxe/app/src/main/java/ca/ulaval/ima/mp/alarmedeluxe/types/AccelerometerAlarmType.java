@@ -178,10 +178,9 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
 		progressBar.setProgress(progressBar.getProgress() + 2);
 
         if (progressBar.getProgress() == 100) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-            }
+            mySensorManager.unregisterListener(this);
+            mediaPlayer.stop();
+            mediaPlayer.reset();
             activity.finish();
         }
     }
