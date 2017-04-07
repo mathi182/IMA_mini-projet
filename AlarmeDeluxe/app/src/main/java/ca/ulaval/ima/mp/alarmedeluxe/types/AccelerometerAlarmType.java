@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_accelerometer, container, false);
+        View view = inflater.inflate(R.layout.fragment_alarmringing_accelerometer, container, false);
 
         return view;
     }
