@@ -20,6 +20,7 @@ import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AccelerometerAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.GeolocationAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.LuminosityAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.MathsAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.YoutubeAlarmType;
@@ -46,7 +47,7 @@ public class AlarmMakingActivity extends AppCompatActivity {
         List<AlarmType> alarmTypes = new ArrayList<>();
         alarmTypes.add(new StandardAlarmType());
         alarmTypes.add(new AccelerometerAlarmType());
-        alarmTypes.add(new GeolocationAlarmType());
+        alarmTypes.add(new LuminosityAlarmType());
         alarmTypes.add(new MathsAlarmType());
         alarmTypes.add(new YoutubeAlarmType());
 

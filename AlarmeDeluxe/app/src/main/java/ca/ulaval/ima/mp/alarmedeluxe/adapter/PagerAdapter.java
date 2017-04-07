@@ -10,16 +10,18 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.AccelerometerFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.GeolocationFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.HomeFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.customization.LuminosityFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.MathsFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.SettingsFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.YoutubeFragment;
+import ca.ulaval.ima.mp.alarmedeluxe.types.LuminosityAlarmType;
 
 public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
-    private static final String[] TABS_HEADER = {"Home", "YouTube", "Geolocation", "Shaking", "Maths", "Settings"};
+    private static final String[] TABS_HEADER = {"Home", "YouTube", "Luminosity", "Shaking", "Maths", "Settings"};
     private static final int[] TABS_ICONS = {R.drawable.ic_tabs_home,
             R.drawable.ic_tabs_youtube,
-            R.drawable.ic_tabs_geolocation,
+            R.drawable.ic_tabs_luminosity,
             R.drawable.ic_tabs_accelerometer,
             R.drawable.ic_tabs_maths,
             R.drawable.ic_tabs_settings};
@@ -39,7 +41,7 @@ public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTa
                 YoutubeFragment tab2 = new YoutubeFragment();
                 return tab2;
             case 2:
-                GeolocationFragment tab3 = new GeolocationFragment();
+                LuminosityFragment tab3 = new LuminosityFragment();
                 return tab3;
             case 3:
                 AccelerometerFragment tab4 = new AccelerometerFragment();
