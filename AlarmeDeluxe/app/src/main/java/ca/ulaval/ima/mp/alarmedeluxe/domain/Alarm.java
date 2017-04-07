@@ -112,11 +112,24 @@ public class Alarm implements Parcelable {
         isRepeating = false;
     }
 
+    public String getStringDays() {
+        String str = "";
+
+        for (boolean b : days) {
+            if (b) {
+                str += "1";
+            } else {
+                str += "0";
+            }
+        }
+
+        return str;
+    }
+
     public AlarmType getType() { return type; }
     public void setType(AlarmType alarmType) { this.type = alarmType; }
 
     public boolean isActive() { return isActive; }
-
     public void setActive(boolean active) {
         isActive = active;
 
@@ -126,6 +139,8 @@ public class Alarm implements Parcelable {
 
         updateAlarmManager(this);
     }
+
+    public boolean isRepeating() { return isRepeating; }
 
     @Override
     public int describeContents() {
