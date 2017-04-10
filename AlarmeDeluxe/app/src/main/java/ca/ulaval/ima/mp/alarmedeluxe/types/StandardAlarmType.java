@@ -18,6 +18,7 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class StandardAlarmType extends Fragment implements AlarmType {
 
+    private int id;
     private String name;
     private MediaPlayer mediaPlayer;
     private Button btn_close;
@@ -92,6 +93,27 @@ public class StandardAlarmType extends Fragment implements AlarmType {
         mediaPlayer.stop();
         mediaPlayer.release();
         getActivity().finish();
+    }
+
+    @Override
+    public double getDuration() {
+        return 0;
+    }
+
+    @Override
+    public double getStrength() {
+        return 0;
+    }
+
+    @Override
+    public String getURL() {
+        return null;
+    }
+
+    @Override
+    public void buildFromBundle(Bundle bundle) {
+        id = bundle.getInt("id");
+        name = bundle.getString("name");
     }
 
     @Override

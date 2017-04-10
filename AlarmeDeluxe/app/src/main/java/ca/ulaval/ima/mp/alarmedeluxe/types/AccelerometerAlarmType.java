@@ -23,9 +23,10 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class AccelerometerAlarmType extends Fragment implements AlarmType, SensorEventListener {
 
+    private int id;
     private String name;
     private int duration;
-    private int forceNeeded;
+    private double forceNeeded;
     private int logoResource;
     private SensorManager mySensorManager;
     /* Here we store the current values of acceleration, one for each axis */
@@ -115,6 +116,28 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
         mediaPlayer.stop();
         mediaPlayer.reset();
         activity.finish();
+    }
+
+    @Override
+    public double getDuration() {
+        return duration;
+    }
+
+    @Override
+    public double getStrength() {
+        return forceNeeded;
+    }
+
+    @Override
+    public String getURL() {
+        return null;
+    }
+
+    @Override
+    public void buildFromBundle(Bundle bundle) {
+        id = bundle.getInt("id");
+        duration = bundle.getInt("duration");
+        forceNeeded = bundle.getDouble("strength");
     }
 
     @Override

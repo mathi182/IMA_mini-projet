@@ -22,12 +22,13 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEventListener {
 
+    private int id;
     private String name;
     private MediaPlayer mediaPlayer;
     private int logoResource;
     private SensorManager sensorManager;
-    private float lightStrength;
-    private float lightStrengthAtStart = -1;
+    private double lightStrength;
+    private double lightStrengthAtStart = -1;
     private Activity activity;
 
     public LuminosityAlarmType() {
@@ -88,6 +89,28 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
         mediaPlayer.stop();
         mediaPlayer.reset();
         activity.finish();
+    }
+
+    @Override
+    public double getDuration() {
+        return 0;
+    }
+
+    @Override
+    public double getStrength() {
+        return lightStrength;
+    }
+
+    @Override
+    public String getURL() {
+        return null;
+    }
+
+    @Override
+    public void buildFromBundle(Bundle bundle) {
+        id = bundle.getInt("id");
+        name = bundle.getString("name");
+        lightStrength = bundle.getDouble("strength");
     }
 
     @Override

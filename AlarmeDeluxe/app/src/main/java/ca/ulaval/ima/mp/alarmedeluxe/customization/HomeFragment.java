@@ -26,6 +26,7 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.DividerItemDecoration;
+import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
 
 import static android.content.Context.ALARM_SERVICE;
 import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
     private List<Alarm> alarmList = new ArrayList<>();
     private AlarmAdapter alarmAdapter;
     private AlarmManager am;
+    private DBHelper database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +60,14 @@ public class HomeFragment extends Fragment {
         alarmRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
         alarmRecyclerView.setAdapter(alarmAdapter);
 
+        database = new DBHelper(getActivity());
+        List<Alarm> alarms = database.getAllAlarms();
+
+        for (Alarm alarm : alarms) {
+            alarmList.add(alarm);
+        }
+        alarmAdapter.notifyDataSetChanged();
+
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.btn_addClock);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +87,8 @@ public class HomeFragment extends Fragment {
                 alarmList.add(alarm);
                 alarmAdapter.notifyItemChanged(alarmList.size() - 1);
                 updateAlarmManager(alarm);
+
+                database.insertAlarm(alarm);
             }
         }
 

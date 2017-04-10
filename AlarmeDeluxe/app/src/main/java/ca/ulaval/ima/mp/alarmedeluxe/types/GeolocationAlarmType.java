@@ -2,6 +2,7 @@ package ca.ulaval.ima.mp.alarmedeluxe.types;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -72,6 +73,26 @@ public class GeolocationAlarmType extends Fragment implements AlarmType {
 
     @Override
     public void stop() {
+
+    }
+
+    @Override
+    public double getDuration() {
+        return 0;
+    }
+
+    @Override
+    public double getStrength() {
+        return 0;
+    }
+
+    @Override
+    public String getURL() {
+        return null;
+    }
+
+    @Override
+    public void buildFromBundle(Bundle bundle) {
 
     }
 }

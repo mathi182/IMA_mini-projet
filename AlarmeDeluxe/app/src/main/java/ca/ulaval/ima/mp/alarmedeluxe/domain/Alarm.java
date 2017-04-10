@@ -1,9 +1,12 @@
 package ca.ulaval.ima.mp.alarmedeluxe.domain;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
@@ -160,5 +163,20 @@ public class Alarm implements Parcelable {
 
     public void stop() {
         type.stop();
+    }
+
+    public void buildFromBundle(Bundle bundle) {
+        id = bundle.getInt("id");
+        title = bundle.getString("title");
+        description = bundle.getString("description");
+        isActive = bundle.getInt("isActive") == 1 ? true : false;
+        isRepeating = bundle.getInt("isRepeating") == 1 ? true : false;
+        type = bundle.getParcelable("type");
+        calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(bundle.getLong("calendar"));
+
+        for (int i = 0; i < bundle.getString("days").length(); i++) {
+            days[i] = bundle.getString("days").charAt(i) == '1';
+        }
     }
 }

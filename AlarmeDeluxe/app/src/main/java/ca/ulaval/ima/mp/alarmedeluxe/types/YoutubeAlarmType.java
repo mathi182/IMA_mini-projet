@@ -2,6 +2,7 @@ package ca.ulaval.ima.mp.alarmedeluxe.types;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,6 +13,7 @@ import ca.ulaval.ima.mp.alarmedeluxe.YoutubeAlarmActivity;
 
 public class YoutubeAlarmType extends Fragment implements AlarmType {
 
+    private int id;
     private String name;
     private String url;
     private int logoResource;
@@ -74,5 +76,27 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
     @Override
     public void stop() {
 
+    }
+
+    @Override
+    public double getDuration() {
+        return 0;
+    }
+
+    @Override
+    public double getStrength() {
+        return 0;
+    }
+
+    @Override
+    public String getURL() {
+        return url;
+    }
+
+    @Override
+    public void buildFromBundle(Bundle bundle) {
+        id = bundle.getInt("id");
+        name = bundle.getString("name");
+        url = bundle.getString("url");
     }
 }
