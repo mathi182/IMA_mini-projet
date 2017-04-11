@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        alarmAdapter = new AlarmAdapter(alarmList, getActivity());
+        alarmAdapter = new AlarmAdapter(alarmList, getContext());
         alarmRecyclerView = (RecyclerView)getActivity().findViewById(R.id.list_alarms);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         alarmRecyclerView.setLayoutManager(layoutManager);
@@ -88,9 +88,9 @@ public class HomeFragment extends Fragment {
                 alarmAdapter.notifyItemChanged(alarmList.size() - 1);
                 updateAlarmManager(alarm);
 
-                database.insertAlarm(alarm);
+                long id = database.insertAlarm(alarm);
+                alarm.setId(id);
             }
         }
-
     }
 }

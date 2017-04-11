@@ -25,7 +25,6 @@ public class Alarm implements Parcelable {
     private boolean[] days;
 
     public Alarm() {
-        //TODO : Devra être incrémenté dans la BD et non setté
         id = 0;
         title = "Wake up my dear";
         description = "I'm a description.";
@@ -63,6 +62,9 @@ public class Alarm implements Parcelable {
 
     public int getId() {
         return id;
+    }
+    public void setId(long id) {
+        this.id = (int)id;
     }
 
     public String getTitle() {

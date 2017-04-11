@@ -119,9 +119,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public Integer deleteAlarm(Integer id) {
+    public Integer deleteAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(ALARMS_TABLE_NAME, "id = ? ", new String[] { Integer.toString(id) });
+        return db.delete(ALARMS_TABLE_NAME, "id = ? ", new String[] { Integer.toString(alarm.getId()) });
     }
 
     public Integer deleteAlarmType(Integer id) {

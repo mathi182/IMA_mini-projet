@@ -12,6 +12,26 @@ android:clickable="true"
 android:background="?android:attr/selectableItemBackground"
 android:orientation="horizontal">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:id="@+id/layout_checkbox_alarm"
+        android:visibility="gone"
+        android:padding="0dp"
+        android:layout_margin="0dp">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/ic_delete_alarm"
+            android:id="@+id/btn_deleteAlarm"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:background="@drawable/background_tab" />
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
