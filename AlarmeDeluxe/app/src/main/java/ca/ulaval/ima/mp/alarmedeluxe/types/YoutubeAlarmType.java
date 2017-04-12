@@ -10,6 +10,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.YoutubeAlarmActivity;
+import ca.ulaval.ima.mp.alarmedeluxe.YoutubeAlarmActivity_;
 
 public class YoutubeAlarmType extends Fragment implements AlarmType {
 
@@ -65,7 +66,7 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
 
     @Override
     public Activity getAlarmActivity(){
-        return new YoutubeAlarmActivity();
+        return new YoutubeAlarmActivity_();
     }
 
     @Override

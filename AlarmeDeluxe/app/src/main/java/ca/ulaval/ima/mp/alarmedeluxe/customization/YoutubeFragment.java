@@ -21,8 +21,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.google.api.services.youtube.YouTube;
+import com.google.common.collect.Lists;
 
+
+import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
@@ -40,13 +44,18 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .addScope(new Scope("https://www.googleapis.com/auth/youtube"))
                 .requestEmail()
+                .requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
                 .build();
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
 // options specified by gso.
+        List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube.upload");
+
          mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 

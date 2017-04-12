@@ -18,7 +18,7 @@
         android:layout_marginStart="11dp" />
 
     <TextView
-        android:text="TextView"
+        android:text="unknown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/lblCurrentRating"
