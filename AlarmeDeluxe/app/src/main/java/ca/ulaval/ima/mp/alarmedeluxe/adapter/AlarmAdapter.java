@@ -1,13 +1,10 @@
 package ca.ulaval.ima.mp.alarmedeluxe.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +14,6 @@ import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.MainActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
-import ca.ulaval.ima.mp.alarmedeluxe.customization.HomeFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
 import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;

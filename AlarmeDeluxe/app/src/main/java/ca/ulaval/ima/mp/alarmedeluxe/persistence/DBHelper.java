@@ -48,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         ALARMS_COLUMN_CALENDAR + " integer, " +
                         ALARMS_COLUMN_DAYS + " text, " +
                         ALARMS_COLUMN_DESCRIPTION + " text, " +
-                        ALARMS_COLUMN_TYPE + " integer)" //" integer references " + ALARM_TYPE_TABLE_NAME + " on delete cascade)"
+                        ALARMS_COLUMN_TYPE + " integer)"
         );
 
         db.execSQL(
@@ -67,15 +67,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ALARM_TYPE_TABLE_NAME);
         onCreate(db);
     }
-    /* If we want delete to be in cascade
-    @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
-        if (!db.isReadOnly()) {
-            // Enable foreign key constraints
-            db.execSQL("PRAGMA foreign_keys=ON;");
-        }
-    }*/
 
     public long insertAlarm(Alarm alarm) {
         long alarmTypeId = insertAlarmType(alarm.getType());
@@ -162,6 +153,29 @@ public class DBHelper extends SQLiteOpenHelper {
 
             cursorAlarm.moveToNext();
         }
+        return array_list;
+    }
+
+    public ArrayList<AlarmType> getAllAlarmTypes(String name) {
+        ArrayList<AlarmType> array_list = new ArrayList();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursorAlarm =  db.rawQuery( "select * from " + ALARM_TYPE_TABLE_NAME + " at where at." + ALARM_TYPE_COLUMN_NAME + " = '" + name + "'", null );
+        cursorAlarm.moveToFirst();
+
+        while(cursorAlarm.isAfterLast() == false) {
+            AlarmType alarmType = AlarmTypeFactory.getByName(cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_NAME)));
+            Bundle alarmTypeBundle = new Bundle();
+            alarmTypeBundle.putInt("id", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_ID)));
+            alarmTypeBundle.putString("name", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_NAME)));
+            alarmTypeBundle.putInt("duration", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DURATION)));
+            alarmTypeBundle.putDouble("strength", cursorAlarm.getDouble(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_STRENGTH)));
+            alarmTypeBundle.putString("url", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_URL)));
+            alarmType.buildFromBundle(alarmTypeBundle);
+
+            array_list.add(alarmType);
+        }
+
         return array_list;
     }
 }
