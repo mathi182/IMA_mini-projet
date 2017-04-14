@@ -85,6 +85,11 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
     public String getURL() {
         return null;
     }

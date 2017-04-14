@@ -22,10 +22,10 @@ import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class AccelerometerAlarmType extends Fragment implements AlarmType, SensorEventListener {
-
     private int id;
     private String name;
-    private int duration;
+    private String description;
+    private double duration;
     private double forceNeeded;
     private int logoResource;
     private SensorManager mySensorManager;
@@ -53,7 +53,11 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     }
 
     public void buildFromParcel(Parcel in) {
-
+        id = in.readInt();
+        name = in.readString();
+        description = in.readString();
+        forceNeeded = in.readDouble();
+        duration = in.readDouble();
     }
 
     @Override
@@ -76,7 +80,11 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeDouble(forceNeeded);
+        dest.writeDouble(duration);
     }
 
     public static final Parcelable.Creator<AccelerometerAlarmType> CREATOR = new Parcelable.Creator<AccelerometerAlarmType>() {
@@ -129,6 +137,11 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     }
 
     @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
     public String getURL() {
         return null;
     }
@@ -136,7 +149,8 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     @Override
     public void buildFromBundle(Bundle bundle) {
         id = bundle.getInt("id");
-        duration = bundle.getInt("duration");
+        description = bundle.getString("description");
+        duration = bundle.getDouble("duration");
         forceNeeded = bundle.getDouble("strength");
     }
 

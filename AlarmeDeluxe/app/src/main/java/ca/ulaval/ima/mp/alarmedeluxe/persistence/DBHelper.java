@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String ALARM_TYPE_TABLE_NAME = "alarmType";
     public static final String ALARM_TYPE_COLUMN_ID = "id";
     public static final String ALARM_TYPE_COLUMN_NAME = "name";
+    public static final String ALARM_TYPE_COLUMN_DESCRIPTION = "description";
     public static final String ALARM_TYPE_COLUMN_DURATION = "duration";
     public static final String ALARM_TYPE_COLUMN_STRENGTH = "strength";
     public static final String ALARM_TYPE_COLUMN_URL = "url";
@@ -55,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table " + ALARM_TYPE_TABLE_NAME + " (" +
                         ALARM_TYPE_COLUMN_ID + " integer primary key autoincrement, " +
                         ALARM_TYPE_COLUMN_NAME + " text, " +
+                        ALARM_TYPE_COLUMN_DESCRIPTION + " text, " +
                         ALARM_TYPE_COLUMN_DURATION + " integer, " +
                         ALARM_TYPE_COLUMN_STRENGTH + " real, " +
                         ALARM_TYPE_COLUMN_URL + " text)"
@@ -91,6 +93,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(ALARM_TYPE_COLUMN_NAME, alarmType.toString());
+        content.put(ALARM_TYPE_COLUMN_DESCRIPTION, alarmType.getDescription());
         content.put(ALARM_TYPE_COLUMN_DURATION, alarmType.getDuration());
         content.put(ALARM_TYPE_COLUMN_STRENGTH, alarmType.getStrength());
         content.put(ALARM_TYPE_COLUMN_URL, alarmType.getURL());
@@ -132,6 +135,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Bundle alarmTypeBundle = new Bundle();
             alarmTypeBundle.putInt("id", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_ID)));
             alarmTypeBundle.putString("name", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_NAME)));
+            alarmTypeBundle.putString("description", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DESCRIPTION)));
             alarmTypeBundle.putInt("duration", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DURATION)));
             alarmTypeBundle.putDouble("strength", cursorAlarm.getDouble(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_STRENGTH)));
             alarmTypeBundle.putString("url", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_URL)));
@@ -168,12 +172,15 @@ public class DBHelper extends SQLiteOpenHelper {
             Bundle alarmTypeBundle = new Bundle();
             alarmTypeBundle.putInt("id", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_ID)));
             alarmTypeBundle.putString("name", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_NAME)));
+            alarmTypeBundle.putString("description", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DESCRIPTION)));
             alarmTypeBundle.putInt("duration", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DURATION)));
             alarmTypeBundle.putDouble("strength", cursorAlarm.getDouble(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_STRENGTH)));
             alarmTypeBundle.putString("url", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_URL)));
             alarmType.buildFromBundle(alarmTypeBundle);
 
             array_list.add(alarmType);
+
+            cursorAlarm.moveToNext();
         }
 
         return array_list;

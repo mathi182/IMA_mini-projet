@@ -46,6 +46,49 @@
             android:id="@+id/textView3"
             android:textSize="18sp"
             android:textStyle="normal|bold" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txt_newaccelerometer_name"
+            android:hint="Name" />
+
+        <TextView
+            android:text="Intensity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:paddingTop="15dp" />
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/skb_newaccelerometer_strength"
+            android:max="100"
+            android:progress="50" />
+
+        <TextView
+            android:text="Duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:paddingTop="15dp" />
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/skb_newaccelerometer_duration"
+            android:progress="50" />
+
+        <Button
+            android:text="Add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_newaccelerometer"
+            android:layout_marginTop="15dp" />
+
     </LinearLayout>
 
 </LinearLayout>

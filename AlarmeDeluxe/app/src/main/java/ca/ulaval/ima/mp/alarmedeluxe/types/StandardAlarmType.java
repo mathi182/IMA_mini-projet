@@ -20,6 +20,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
 
     private int id;
     private String name;
+    private String description;
     private MediaPlayer mediaPlayer;
     private Button btn_close;
     private int m_alarmId;
@@ -103,6 +104,11 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     @Override
     public double getStrength() {
         return 0;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

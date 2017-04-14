@@ -42,7 +42,7 @@ public class AlarmTypeListAdapter extends RecyclerView.Adapter<AlarmTypeListAdap
     @Override
     public void onBindViewHolder(AlarmTypeListAdapter.AlarmViewHolder holder, int position) {
         AlarmType alarm = alarmTypes.get(position);
-        holder.alarmTypeName.setText(alarm.toString());
+        holder.alarmTypeName.setText(alarm.getDescription());
     }
 
     @Override

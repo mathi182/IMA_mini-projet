@@ -24,6 +24,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
 
     private int id;
     private String name;
+    private String description;
     private MediaPlayer mediaPlayer;
     private int logoResource;
     private SensorManager sensorManager;
@@ -99,6 +100,11 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     @Override
     public double getStrength() {
         return lightStrength;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

@@ -6,15 +6,13 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
-
 import ca.ulaval.ima.mp.alarmedeluxe.R;
-import ca.ulaval.ima.mp.alarmedeluxe.YoutubeAlarmActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.YoutubeAlarmActivity_;
 
 public class YoutubeAlarmType extends Fragment implements AlarmType {
 
     private int id;
+    private String description;
     private String name;
     private String url;
     private int logoResource;
@@ -87,6 +85,11 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
     @Override
     public double getStrength() {
         return 0;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

@@ -12,6 +12,7 @@ public interface AlarmType extends Parcelable {
     void stop();
     double getDuration();
     double getStrength();
+    String getDescription();
     String getURL();
     void buildFromBundle(Bundle bundle);
 }
