@@ -22,12 +22,14 @@ import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class AccelerometerAlarmType extends Fragment implements AlarmType, SensorEventListener {
+
     private int id;
     private String name;
     private String description;
     private double duration;
     private double forceNeeded;
     private int logoResource;
+    private boolean isDefault = true;
     private SensorManager mySensorManager;
     /* Here we store the current values of acceleration, one for each axis */
     private float xAccel;
@@ -40,7 +42,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     /* Used to suppress the first shaking */
     private boolean firstUpdate = true;
     /*What acceleration difference would we assume as a rapid movement? */
-    private final float shakeThreshold = 1.5f;
+    private final double shakeThreshold = 15;
     /* Has a shaking motion been started (one direction) */
     private boolean shakeInitiated = false;
     private ProgressBar progressBar;
@@ -48,7 +50,9 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     private MediaPlayer mediaPlayer;
 
     public AccelerometerAlarmType() {
+        id = -1;
         name = "Shaking";
+        description = "Default";
         logoResource = R.mipmap.ic_accelerometer_dark;
     }
 
@@ -58,6 +62,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
         description = in.readString();
         forceNeeded = in.readDouble();
         duration = in.readDouble();
+        isDefault = in.readInt() == 1 ? true : false;
     }
 
     @Override
@@ -85,6 +90,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
         dest.writeString(description);
         dest.writeDouble(forceNeeded);
         dest.writeDouble(duration);
+        dest.writeInt(isDefault ? 1 : 0);
     }
 
     public static final Parcelable.Creator<AccelerometerAlarmType> CREATOR = new Parcelable.Creator<AccelerometerAlarmType>() {
@@ -119,11 +125,26 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     }
 
     @Override
+    public int getAlarmId() {
+        return id;
+    }
+
+    @Override
+    public void setAlarmId(int id) {
+        this.id = id;
+    }
+
+    @Override
     public void stop() {
         mySensorManager.unregisterListener(this);
         mediaPlayer.stop();
         mediaPlayer.reset();
         activity.finish();
+    }
+
+    @Override
+    public boolean isDefaultAlarm() {
+        return isDefault;
     }
 
     @Override
@@ -152,6 +173,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
         description = bundle.getString("description");
         duration = bundle.getDouble("duration");
         forceNeeded = bundle.getDouble("strength");
+        isDefault = bundle.getBoolean("default");
     }
 
     @Override
@@ -210,12 +232,14 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
     }
 
     private boolean isAccelerationChanged() {
-        float deltaX = Math.abs(xPreviousAccel - xAccel);
-        float deltaY = Math.abs(yPreviousAccel - yAccel);
-        float deltaZ = Math.abs(zPreviousAccel - zAccel);
-        return (deltaX > shakeThreshold && deltaY > shakeThreshold)
-                || (deltaX > shakeThreshold && deltaZ > shakeThreshold)
-                || (deltaY > shakeThreshold && deltaZ > shakeThreshold);
+        double deltaX = Math.abs(xPreviousAccel - xAccel);
+        double deltaY = Math.abs(yPreviousAccel - yAccel);
+        double deltaZ = Math.abs(zPreviousAccel - zAccel);
+        double customThreshold = shakeThreshold * forceNeeded;
+
+        return (deltaX > customThreshold && deltaY > customThreshold)
+                || (deltaX > customThreshold && deltaZ > customThreshold)
+                || (deltaY > customThreshold && deltaZ > customThreshold);
     }
 
     private void executeShakeAction() {

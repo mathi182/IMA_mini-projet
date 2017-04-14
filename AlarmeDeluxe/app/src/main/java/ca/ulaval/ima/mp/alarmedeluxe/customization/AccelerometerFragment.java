@@ -53,8 +53,8 @@ public class AccelerometerFragment extends Fragment {
                 Bundle bundle = new Bundle();
 
                 bundle.putString("description", txt_newName.getText().toString());
-                bundle.putDouble("duration", skb_duration.getProgress());
-                bundle.putDouble("strength", skb_intensity.getProgress());
+                bundle.putDouble("duration", skb_duration.getProgress()/skb_duration.getMax());
+                bundle.putDouble("strength", skb_intensity.getProgress()/skb_intensity.getMax());
 
                 accelerometer.buildFromBundle(bundle);
                 alarmTypes.add(accelerometer);

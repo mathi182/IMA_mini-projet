@@ -11,10 +11,12 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class MathsAlarmType extends Fragment implements AlarmType {
 
+    private int id;
     private String name;
     private int logoResource;
 
     public MathsAlarmType() {
+        id = -1;
         name = "Maths problem";
         logoResource = R.mipmap.ic_maths_dark;
     }
@@ -70,8 +72,18 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public int getAlarmId() {
+        return id;
+    }
+
+    @Override
     public void stop() {
 
+    }
+
+    @Override
+    public boolean isDefaultAlarm() {
+        return true;
     }
 
     @Override
@@ -97,5 +109,10 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     @Override
     public void buildFromBundle(Bundle bundle) {
 
+    }
+
+    @Override
+    public void setAlarmId(int id) {
+        this.id = id;
     }
 }

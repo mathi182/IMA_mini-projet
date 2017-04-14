@@ -21,18 +21,22 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     private int id;
     private String name;
     private String description;
+    private boolean isDefault = true;
     private MediaPlayer mediaPlayer;
     private Button btn_close;
     private int m_alarmId;
     private int logoResource;
 
     public StandardAlarmType() {
+        id = -1;
         name = "Standard";
+        description = "Default";
         logoResource = R.mipmap.ic_newalarm;
     }
 
     public void buildFromParcel(Parcel in) {
         name = in.readString();
+        isDefault = in.readInt() == 1 ? true : false;
     }
 
     @Override
@@ -56,6 +60,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
+        dest.writeInt(isDefault ? 1 : 0);
     }
 
     public static final Parcelable.Creator<StandardAlarmType> CREATOR = new Parcelable.Creator<StandardAlarmType>() {
@@ -90,10 +95,20 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public int getAlarmId() {
+        return id;
+    }
+
+    @Override
     public void stop() {
         mediaPlayer.stop();
         mediaPlayer.release();
         getActivity().finish();
+    }
+
+    @Override
+    public boolean isDefaultAlarm() {
+        return isDefault;
     }
 
     @Override
@@ -120,6 +135,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     public void buildFromBundle(Bundle bundle) {
         id = bundle.getInt("id");
         name = bundle.getString("name");
+        isDefault = bundle.getBoolean("default");
     }
 
     @Override
@@ -149,5 +165,10 @@ public class StandardAlarmType extends Fragment implements AlarmType {
                 stop();
             }
         });
+    }
+
+    @Override
+    public void setAlarmId(int id) {
+        this.id = id;
     }
 }

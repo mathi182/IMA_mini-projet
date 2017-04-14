@@ -11,12 +11,14 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 
 public class GeolocationAlarmType extends Fragment implements AlarmType {
 
+    private int id;
     private String name;
     private double longitude;
     private double latitude;
     private int logoResource;
 
     public GeolocationAlarmType() {
+        id = -1;
         name = "Geolocalisation";
         logoResource = R.mipmap.ic_geolocation_dark;
     }
@@ -72,8 +74,18 @@ public class GeolocationAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public int getAlarmId() {
+        return id;
+    }
+
+    @Override
     public void stop() {
 
+    }
+
+    @Override
+    public boolean isDefaultAlarm() {
+        return true;
     }
 
     @Override
@@ -99,5 +111,10 @@ public class GeolocationAlarmType extends Fragment implements AlarmType {
     @Override
     public void buildFromBundle(Bundle bundle) {
 
+    }
+
+    @Override
+    public void setAlarmId(int id) {
+        this.id = id;
     }
 }

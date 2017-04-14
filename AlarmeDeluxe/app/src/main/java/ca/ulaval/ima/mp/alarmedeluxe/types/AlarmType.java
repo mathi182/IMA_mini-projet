@@ -9,7 +9,10 @@ public interface AlarmType extends Parcelable {
     Fragment getFragment();
     Activity getAlarmActivity();
     int getLogoResource();
+    int getAlarmId();
+    void setAlarmId(int id);
     void stop();
+    boolean isDefaultAlarm();
     double getDuration();
     double getStrength();
     String getDescription();

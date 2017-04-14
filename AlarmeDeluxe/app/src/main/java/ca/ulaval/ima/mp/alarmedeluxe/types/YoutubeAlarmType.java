@@ -15,15 +15,18 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
     private String description;
     private String name;
     private String url;
+    private boolean isDefault = true;
     private int logoResource;
 
     public YoutubeAlarmType() {
+        id = -1;
         name = "YouTube video";
+        description = "Default";
         logoResource = R.mipmap.ic_youtube_dark;
     }
 
     public void buildFromParcel(Parcel in) {
-
+        isDefault = false;
     }
 
     @Override
@@ -73,8 +76,18 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public int getAlarmId() {
+        return id;
+    }
+
+    @Override
     public void stop() {
 
+    }
+
+    @Override
+    public boolean isDefaultAlarm() {
+        return isDefault;
     }
 
     @Override
@@ -102,5 +115,11 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
         id = bundle.getInt("id");
         name = bundle.getString("name");
         url = bundle.getString("url");
+        isDefault = bundle.getBoolean("default");
+    }
+
+    @Override
+    public void setAlarmId(int id) {
+        this.id = id;
     }
 }
