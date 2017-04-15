@@ -96,10 +96,7 @@ public class Alarm implements Parcelable {
         calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
-
-        /*if (calendar.compareTo(Calendar.getInstance()) <= 0) {
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }*/
+        calendar.set(Calendar.SECOND, 0);
     }
 
     public boolean[] getDays() {
@@ -111,7 +108,7 @@ public class Alarm implements Parcelable {
         for (boolean b : days) {
             if (b) {
                 isRepeating = true;
-                break;
+                return;
             }
         }
         isRepeating = false;

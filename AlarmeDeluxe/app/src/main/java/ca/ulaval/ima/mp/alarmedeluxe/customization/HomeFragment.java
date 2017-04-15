@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent in = new Intent(getActivity(), AlarmMakingActivity.class);
                 startActivityForResult(in, MAKE_NEW_ALARM_REQUEST);
-
             }
         });
     }
@@ -88,7 +87,7 @@ public class HomeFragment extends Fragment {
                 alarmAdapter.notifyItemChanged(alarmList.size() - 1);
                 updateAlarmManager(alarm);
 
-                long id = database.insertAlarm(alarm);
+                long id = database.insertAlarm(alarm, null);
                 alarm.setId(id);
             }
         }

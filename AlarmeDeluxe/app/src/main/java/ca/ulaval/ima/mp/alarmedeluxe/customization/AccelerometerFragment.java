@@ -60,7 +60,7 @@ public class AccelerometerFragment extends Fragment {
                 alarmTypes.add(accelerometer);
                 adapter.notifyDataSetChanged();
 
-                database.insertAlarmType(accelerometer);
+                database.insertAlarmType(accelerometer, null);
             }
         });
 

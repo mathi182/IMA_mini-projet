@@ -10,8 +10,14 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
+import ca.ulaval.ima.mp.alarmedeluxe.types.AccelerometerAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmTypeFactory;
+import ca.ulaval.ima.mp.alarmedeluxe.types.GeolocationAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.LuminosityAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.MathsAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.types.YoutubeAlarmType;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -63,6 +69,13 @@ public class DBHelper extends SQLiteOpenHelper {
                         ALARM_TYPE_COLUMN_STRENGTH + " real, " +
                         ALARM_TYPE_COLUMN_URL + " text)"
         );
+
+        insertAlarmType(new StandardAlarmType(), db);
+        insertAlarmType(new AccelerometerAlarmType(), db);
+        insertAlarmType(new LuminosityAlarmType(), db);
+        insertAlarmType(new YoutubeAlarmType(), db);
+        insertAlarmType(new MathsAlarmType(), db);
+        insertAlarmType(new GeolocationAlarmType(), db);
     }
 
     @Override
@@ -72,9 +85,12 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertAlarm(Alarm alarm) {
+    public long insertAlarm(Alarm alarm, SQLiteDatabase db) {
+        if (db == null) {
+            db = this.getWritableDatabase();
+        }
         if (alarm.getType().getAlarmId() == -1) {
-            long alarmTypeId = insertAlarmType(alarm.getType());
+            long alarmTypeId = insertAlarmType(alarm.getType(), null);
 
             if (alarmTypeId < 0) {
                 return -1;
@@ -83,8 +99,6 @@ public class DBHelper extends SQLiteOpenHelper {
             alarm.getType().setAlarmId((int)alarmTypeId);
         }
 
-
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(ALARMS_COLUMN_TITLE, alarm.getTitle());
         content.put(ALARMS_COLUMN_DESCRIPTION, alarm.getDescription());
@@ -97,8 +111,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.insert(ALARMS_TABLE_NAME, null, content);
     }
 
-    public long insertAlarmType(AlarmType alarmType) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public long insertAlarmType(AlarmType alarmType, SQLiteDatabase db) {
+        if (db == null) {
+            db = this.getWritableDatabase();
+        }
         ContentValues content = new ContentValues();
         content.put(ALARM_TYPE_COLUMN_NAME, alarmType.toString());
         content.put(ALARM_TYPE_COLUMN_DESCRIPTION, alarmType.getDescription());

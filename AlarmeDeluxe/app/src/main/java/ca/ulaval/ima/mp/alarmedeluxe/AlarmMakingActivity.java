@@ -70,17 +70,6 @@ public class AlarmMakingActivity extends AppCompatActivity {
                 subAlarmTypes.clear();
                 subAlarmTypes.addAll(database.getAllAlarmTypes(alarmTypes.get(position).toString()));
 
-                boolean defautExists = false;
-                for (AlarmType a : subAlarmTypes) {
-                    if (a.isDefaultAlarm()) {
-                        defautExists = true;
-                        break;
-                    }
-                }
-                if (!defautExists) {
-                    subAlarmTypes.add(0, AlarmTypeFactory.getByName(alarmTypes.get(position).toString()));
-                }
-
                 subAlarmTypeAdapter.notifyDataSetChanged();
             }
 
