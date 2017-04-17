@@ -55,12 +55,15 @@ public class AccelerometerFragment extends Fragment {
                 bundle.putString("description", txt_newName.getText().toString());
                 bundle.putDouble("duration", skb_duration.getProgress()/skb_duration.getMax());
                 bundle.putDouble("strength", skb_intensity.getProgress()/skb_intensity.getMax());
+                bundle.putBoolean("default", false);
 
                 accelerometer.buildFromBundle(bundle);
+
+                long id = database.insertAlarmType(accelerometer, null);
+
+                accelerometer.setAlarmId((int)id);
                 alarmTypes.add(accelerometer);
                 adapter.notifyDataSetChanged();
-
-                database.insertAlarmType(accelerometer, null);
             }
         });
 

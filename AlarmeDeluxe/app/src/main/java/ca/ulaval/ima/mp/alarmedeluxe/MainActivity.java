@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setViewPager(viewPager);
         database = new DBHelper(this);
-        //deleteDatabase(DBHelper.DB_NAME); //Uncomment to reinitalize DB
+        deleteDatabase(DBHelper.DB_NAME); //Uncomment to reinitalize DB
 
         createAlarmManager(this);
     }
