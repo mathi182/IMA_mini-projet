@@ -1,7 +1,6 @@
 package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,25 +9,21 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmMakingActivity;
-import ca.ulaval.ima.mp.alarmedeluxe.AlarmReceiver;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.DividerItemDecoration;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.DividerItemDecoration;
 import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
 
-import static android.content.Context.ALARM_SERVICE;
 import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
 
 public class HomeFragment extends Fragment {
@@ -74,7 +69,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent in = new Intent(getActivity(), AlarmMakingActivity.class);
                 startActivityForResult(in, MAKE_NEW_ALARM_REQUEST);
-
             }
         });
     }
@@ -88,7 +82,7 @@ public class HomeFragment extends Fragment {
                 alarmAdapter.notifyItemChanged(alarmList.size() - 1);
                 updateAlarmManager(alarm);
 
-                long id = database.insertAlarm(alarm);
+                long id = database.insertAlarm(alarm, null);
                 alarm.setId(id);
             }
         }

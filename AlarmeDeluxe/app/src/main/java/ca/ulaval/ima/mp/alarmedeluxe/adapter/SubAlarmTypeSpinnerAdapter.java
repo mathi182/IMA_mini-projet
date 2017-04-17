@@ -1,12 +1,10 @@
 package ca.ulaval.ima.mp.alarmedeluxe.adapter;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,12 +12,12 @@ import java.util.List;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
 
-public class AlarmTypeSpinnerAdapter extends ArrayAdapter<AlarmType> {
+public class SubAlarmTypeSpinnerAdapter extends ArrayAdapter<AlarmType> {
 
     List<AlarmType> alarmTypes;
     LayoutInflater inflator;
 
-    public AlarmTypeSpinnerAdapter(Context context, int resource, List objects) {
+    public SubAlarmTypeSpinnerAdapter(Context context, int resource, List objects) {
         super(context, resource, objects);
 
         alarmTypes = (List<AlarmType>) objects;
@@ -37,14 +35,17 @@ public class AlarmTypeSpinnerAdapter extends ArrayAdapter<AlarmType> {
         return alarmTypes.get(position);
     }
 
+    public void setItems(List<AlarmType> alarmTypes) {
+        this.alarmTypes = alarmTypes;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        convertView = inflator.inflate(R.layout.alarmtype_spinner_row, parent, false);
-        TextView tv = (TextView) convertView.findViewById(R.id.alarm_type_name);
-        tv.setText(alarmTypes.get(position).toString());
-        ImageView imageView = (ImageView)convertView.findViewById(R.id.alarm_type_logo);
-        imageView.setImageResource(alarmTypes.get(position).getLogoResource());
+        convertView = inflator.inflate(R.layout.alarm_types_subelement_row, parent, false);
+        TextView tv = (TextView) convertView.findViewById(R.id.txt_alarmType_subelement);
+        tv.setText(alarmTypes.get(position).getDescription());
         return convertView;
     }
 

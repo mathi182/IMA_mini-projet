@@ -7,12 +7,9 @@ import android.support.v7.widget.Toolbar;
 
 import com.astuetz.PagerSlidingTabStrip;
 
-import java.util.List;
-
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.PagerAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
 
 import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.createAlarmManager;
 
@@ -34,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setViewPager(viewPager);
         database = new DBHelper(this);
+        //deleteDatabase(DBHelper.DB_NAME); //Uncomment to reinitalize DB
 
         createAlarmManager(this);
     }

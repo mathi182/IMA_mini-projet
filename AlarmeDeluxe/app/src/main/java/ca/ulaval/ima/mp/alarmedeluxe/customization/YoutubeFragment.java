@@ -56,6 +56,7 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
         //public GoogleSignInOptions.Builder requestScopes (Scope scope, Scope... scopes)
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(YouTubeScopes.YOUTUBE_FORCE_SSL))
                 .requestEmail()
@@ -70,6 +71,21 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
                 .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
+        if (mGoogleApiClient == null) {
+            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestScopes(new Scope("https://www.googleapis.com/auth/youtube"))
+                    .requestEmail()
+                    .requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
+                    .build();
+
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+        }
 
         // Set the dimensions of the sign-in button.
         View view = inflater.inflate(R.layout.fragment_youtube, container, false);

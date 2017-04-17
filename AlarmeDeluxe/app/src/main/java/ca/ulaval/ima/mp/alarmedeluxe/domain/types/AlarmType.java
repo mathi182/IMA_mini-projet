@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.types;
+package ca.ulaval.ima.mp.alarmedeluxe.domain.types;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -9,9 +9,13 @@ public interface AlarmType extends Parcelable {
     Fragment getFragment();
     Activity getAlarmActivity();
     int getLogoResource();
+    int getAlarmId();
+    void setAlarmId(int id);
     void stop();
+    boolean isDefaultAlarm();
     double getDuration();
     double getStrength();
+    String getDescription();
     String getURL();
     void buildFromBundle(Bundle bundle);
 }

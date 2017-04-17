@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
+import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
+
 public class AlarmRingingActivity extends AppCompatActivity {
 
     private Alarm alarm;
@@ -24,6 +26,10 @@ public class AlarmRingingActivity extends AppCompatActivity {
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        }
+
+        if (alarm.isRepeating()) {
+            updateAlarmManager(alarm);
         }
 
         // Show the activity over the lock screen

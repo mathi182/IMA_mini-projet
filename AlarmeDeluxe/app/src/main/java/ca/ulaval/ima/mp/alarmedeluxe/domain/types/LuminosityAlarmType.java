@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.types;
+package ca.ulaval.ima.mp.alarmedeluxe.domain.types;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -24,6 +24,8 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
 
     private int id;
     private String name;
+    private String description;
+    private boolean isDefault = true;
     private MediaPlayer mediaPlayer;
     private int logoResource;
     private SensorManager sensorManager;
@@ -32,7 +34,9 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     private Activity activity;
 
     public LuminosityAlarmType() {
+        id = -1;
         name = "Luminosity";
+        description = "Default";
         logoResource = R.mipmap.ic_luminosity_dark;
         lightStrength = 30;
     }
@@ -40,7 +44,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_luminosity, container, false);
+        View view = inflater.inflate(R.layout.alarm_ringing_luminosity, container, false);
 
         return view;
     }
@@ -84,11 +88,21 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     }
 
     @Override
+    public int getAlarmId() {
+        return id;
+    }
+
+    @Override
     public void stop() {
         sensorManager.unregisterListener(this);
         mediaPlayer.stop();
         mediaPlayer.reset();
         activity.finish();
+    }
+
+    @Override
+    public boolean isDefaultAlarm() {
+        return isDefault;
     }
 
     @Override
@@ -102,6 +116,11 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     }
 
     @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
     public String getURL() {
         return null;
     }
@@ -109,8 +128,9 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     @Override
     public void buildFromBundle(Bundle bundle) {
         id = bundle.getInt("id");
-        name = bundle.getString("name");
+        description = bundle.getString("description");
         lightStrength = bundle.getDouble("strength");
+        isDefault = bundle.getBoolean("default");
     }
 
     @Override
@@ -120,6 +140,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
 
     public void buildFromParcel(Parcel in) {
         name = in.readString();
+        isDefault = in.readInt() == 1 ? true : false;
     }
 
     public static final Parcelable.Creator<LuminosityAlarmType> CREATOR = new Parcelable.Creator<LuminosityAlarmType>() {
@@ -141,6 +162,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
+        dest.writeInt(isDefault ? 1 : 0);
     }
 
     @Override
@@ -164,5 +186,10 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    @Override
+    public void setAlarmId(int id) {
+        this.id = id;
     }
 }

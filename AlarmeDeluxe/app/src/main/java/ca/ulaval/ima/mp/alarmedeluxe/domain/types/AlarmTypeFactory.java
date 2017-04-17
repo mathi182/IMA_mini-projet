@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.types;
+package ca.ulaval.ima.mp.alarmedeluxe.domain.types;
 
 public final class AlarmTypeFactory {
     public static final String STANDARD_ALARM_TYPE_NAME = "Standard";

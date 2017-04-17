@@ -109,22 +109,18 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:id="@+id/txtDescription"
-                android:hint="Description"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
-
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp" />
+
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spn_alarmTypes" />
 
             <Button
                 android:text="Create Alarm"

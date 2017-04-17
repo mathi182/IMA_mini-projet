@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.types;
+package ca.ulaval.ima.mp.alarmedeluxe.domain.types;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -9,14 +9,18 @@ import android.os.Parcelable;
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
-public class MathsAlarmType extends Fragment implements AlarmType {
+public class GeolocationAlarmType extends Fragment implements AlarmType {
 
+    private int id;
     private String name;
+    private double longitude;
+    private double latitude;
     private int logoResource;
 
-    public MathsAlarmType() {
-        name = "Maths problem";
-        logoResource = R.mipmap.ic_maths_dark;
+    public GeolocationAlarmType() {
+        id = -1;
+        name = "Geolocalisation";
+        logoResource = R.mipmap.ic_geolocation_dark;
     }
 
     public void buildFromParcel(Parcel in) {
@@ -38,19 +42,19 @@ public class MathsAlarmType extends Fragment implements AlarmType {
 
     }
 
-    public static final Parcelable.Creator<MathsAlarmType> CREATOR = new Parcelable.Creator<MathsAlarmType>() {
+    public static final Parcelable.Creator<GeolocationAlarmType> CREATOR = new Parcelable.Creator<GeolocationAlarmType>() {
 
         @Override
-        public MathsAlarmType createFromParcel(Parcel source) {
-            MathsAlarmType alarmType = new MathsAlarmType();
+        public GeolocationAlarmType createFromParcel(Parcel source) {
+            GeolocationAlarmType alarmType = new GeolocationAlarmType();
             alarmType.buildFromParcel(source);
 
             return alarmType;
         }
 
         @Override
-        public MathsAlarmType[] newArray(int size) {
-            return new MathsAlarmType[size];
+        public GeolocationAlarmType[] newArray(int size) {
+            return new GeolocationAlarmType[size];
         }
     };
 
@@ -70,8 +74,18 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public int getAlarmId() {
+        return id;
+    }
+
+    @Override
     public void stop() {
 
+    }
+
+    @Override
+    public boolean isDefaultAlarm() {
+        return true;
     }
 
     @Override
@@ -85,6 +99,11 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     }
 
     @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
     public String getURL() {
         return null;
     }
@@ -92,5 +111,10 @@ public class MathsAlarmType extends Fragment implements AlarmType {
     @Override
     public void buildFromBundle(Bundle bundle) {
 
+    }
+
+    @Override
+    public void setAlarmId(int id) {
+        this.id = id;
     }
 }

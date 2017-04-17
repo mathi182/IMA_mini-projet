@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 
+import java.util.Calendar;
+
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -30,20 +32,28 @@ public final class MyAlarmManager {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mainActivity,alarm.getId(),in,PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (alarm.isActive()) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(), pendingIntent);
+            if (alarm.isRepeating()) {
+                Calendar now = Calendar.getInstance();
+                int dayOfWeek = Calendar.SUNDAY; //Week starts on Sunday
+
+                while (alarm.getTime().compareTo(now) < 0) {
+                    alarm.getTime().add(Calendar.DATE, 1);
+                }
+
+                for (boolean b : alarm.getDays()) {
+                    if (b) {
+                        while (alarm.getTime().get(Calendar.DAY_OF_WEEK) != dayOfWeek ) {
+                            alarm.getTime().add(Calendar.DATE, 1);
+                        }
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(), pendingIntent);
+                    }
+                    dayOfWeek++;
+                }
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(), pendingIntent);
+            }
         } else {
             alarmManager.cancel(pendingIntent);
         }
-
-        /*
-                //Log.e(" jour",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-                Log.e(" hours",String.valueOf(alarm.getHours()));
-                Log.e(" minutes",String.valueOf(alarm.getMinutes()));
-                Log.e("calendar jour",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-                Log.e("calendar hours",String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
-                Log.e("calendar minutes",String.valueOf(calendar.get(Calendar.MINUTE)));
-                Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
-                Log.e("Calendar",String.valueOf(calendar.getTimeInMillis()));
-                Log.e("System", String.valueOf(Calendar.getInstance().getTimeInMillis()));*/
     }
 }
