@@ -8,13 +8,11 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.AccelerometerFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.customization.GeolocationFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.HomeFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.LuminosityFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.MathsFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.SettingsFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.YoutubeFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.types.LuminosityAlarmType;
 
 public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 

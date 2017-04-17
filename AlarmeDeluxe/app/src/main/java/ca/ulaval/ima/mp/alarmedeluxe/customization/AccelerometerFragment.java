@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,17 +15,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmTypeListAdapter;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.DividerItemDecoration;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AccelerometerAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmTypeFactory;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.DividerItemDecoration;
 import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AccelerometerAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmTypeFactory;
 
 public class AccelerometerFragment extends Fragment {
 
@@ -49,6 +51,11 @@ public class AccelerometerFragment extends Fragment {
         btn_newAlarmType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (txt_newName.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "You must specify a name to the alarm", Toast.LENGTH_SHORT).show();
+                    txt_newName.setHintTextColor(Color.RED);
+                    return;
+                }
                 AlarmType accelerometer = new AccelerometerAlarmType();
                 Bundle bundle = new Bundle();
 

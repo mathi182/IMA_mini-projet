@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
 
 public class SubAlarmTypeSpinnerAdapter extends ArrayAdapter<AlarmType> {
 

@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.alarmedeluxe.types;
+package ca.ulaval.ima.mp.alarmedeluxe.domain.types;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -128,7 +128,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     @Override
     public void buildFromBundle(Bundle bundle) {
         id = bundle.getInt("id");
-        name = bundle.getString("name");
+        description = bundle.getString("description");
         lightStrength = bundle.getDouble("strength");
         isDefault = bundle.getBoolean("default");
     }

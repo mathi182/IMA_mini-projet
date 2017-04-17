@@ -24,7 +24,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     private Context context;
 
     public class AlarmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        public TextView alarmTitle, alarmTime;
+        public TextView alarmTitle, alarmTime, alarmDescription;
         public ImageView alarmToggle;
         public LinearLayout layoutCheckbox;
         public ImageButton btn_deleteAlarm;
@@ -33,6 +33,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             super(itemView);
 
             alarmTitle = (TextView)itemView.findViewById(R.id.alarm_title);
+            alarmDescription = (TextView)itemView.findViewById(R.id.alarm_description);
             alarmTime = (TextView)itemView.findViewById(R.id.alarm_time);
             alarmToggle = (ImageView)itemView.findViewById(R.id.alarm_toggle);
             alarmToggle.setOnClickListener(this);
@@ -89,6 +90,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     public void onBindViewHolder(AlarmViewHolder holder, int position) {
         Alarm alarm = alarms.get(position);
         holder.alarmTitle.setText(alarm.getTitle());
+        holder.alarmDescription.setText(alarm.getDescription());
         holder.alarmTime.setText(alarm.getStringTime());
 
         if (alarm.isActive()) {

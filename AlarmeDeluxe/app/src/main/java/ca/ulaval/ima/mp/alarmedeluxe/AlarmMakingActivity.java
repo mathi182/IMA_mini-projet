@@ -8,31 +8,29 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmTypeSpinnerAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.SubAlarmTypeSpinnerAdapter;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AccelerometerAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmTypeFactory;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.LuminosityAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.MathsAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.StandardAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.YoutubeAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AccelerometerAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmTypeFactory;
-import ca.ulaval.ima.mp.alarmedeluxe.types.LuminosityAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.MathsAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.YoutubeAlarmType;
 
 public class AlarmMakingActivity extends AppCompatActivity {
 
     private TimePicker timePicker;
-    private EditText title, description;
+    private EditText title;
     private Spinner alarmTypeSpinner, subElementTypeSpinner;
     private List<AlarmType> alarmTypes, subAlarmTypes = new ArrayList<>();
     private AlarmTypeSpinnerAdapter alarmTypeAdapter;
@@ -90,7 +88,6 @@ public class AlarmMakingActivity extends AppCompatActivity {
         View rootView = v.getRootView();
         timePicker = (TimePicker)rootView.findViewById(R.id.timePicker);
         title = (EditText)rootView.findViewById(R.id.txtTitle);
-        description = (EditText)rootView.findViewById(R.id.txtDescription);
         btn_sunday = (ToggleButton)rootView.findViewById(R.id.btn_sunday);
         btn_monday = (ToggleButton)rootView.findViewById(R.id.btn_monday);
         btn_tuesday = (ToggleButton)rootView.findViewById(R.id.btn_tuesday);
@@ -110,7 +107,6 @@ public class AlarmMakingActivity extends AppCompatActivity {
         };
 
         Alarm alarm = new Alarm();
-        alarm.setDescription(description.getText().toString());
         alarm.setTitle(title.getText().toString());
         alarm.setTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
         alarm.setType((AlarmType)subElementTypeSpinner.getSelectedItem());

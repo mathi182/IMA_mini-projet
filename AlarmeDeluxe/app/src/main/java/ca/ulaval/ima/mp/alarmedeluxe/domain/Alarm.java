@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.List;
 
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.StandardAlarmType;
 
 import static ca.ulaval.ima.mp.alarmedeluxe.MyAlarmManager.updateAlarmManager;
 
@@ -27,7 +27,7 @@ public class Alarm implements Parcelable {
     public Alarm() {
         id = 0;
         title = "Wake up my dear";
-        description = "I'm a description.";
+        description = "";
         type = new StandardAlarmType();
         isActive = true;
         isRepeating = false;
@@ -75,10 +75,50 @@ public class Alarm implements Parcelable {
     }
 
     public String getDescription() {
+        updateDescription();
         return description;
     }
-    public void setDescription(String description) {
-        this.description = description;
+    public void updateDescription() {
+        description = "";
+
+        if (days[0] && !days[1] && !days[2] && !days[3] && !days[4] && !days[5] && days[6]) {
+            description = "Week-ends only";
+        } else if (!days[0] && days[1] && days[2] && days[3] && days[4] && days[5] && !days[6]) {
+            description = "All days of week";
+        } else if (days[0] && days[1] && days[2] && days[3] && days[4] && days[5] && days[6]) {
+            description = "Everyday";
+        } else {
+            List<String> selectedDays = new ArrayList<>();
+            if (days[0]) {
+                selectedDays.add("Sun.");
+            }
+            if (days[1]) {
+                selectedDays.add("Mon.");
+            }
+            if (days[2]) {
+                selectedDays.add("Tue.");
+            }
+            if (days[3]) {
+                selectedDays.add("Wed.");
+            }
+            if (days[4]) {
+                selectedDays.add("Thu.");
+            }
+            if (days[5]) {
+                selectedDays.add("Fry.");
+            }
+            if (days[6]) {
+                selectedDays.add("Sat.");
+            }
+
+            if (!selectedDays.isEmpty()) {
+                description = "On : ";
+                for (int i = 0; i < selectedDays.size() - 1; i++) {
+                    description += selectedDays.get(i) + ", ";
+                }
+                description += selectedDays.get(selectedDays.size()-1);
+            }
+        }
     }
 
     public String getStringTime() {
@@ -112,6 +152,7 @@ public class Alarm implements Parcelable {
             }
         }
         isRepeating = false;
+        updateDescription();
     }
 
     public String getStringDays() {
@@ -173,6 +214,7 @@ public class Alarm implements Parcelable {
         type = bundle.getParcelable("type");
         calendar = Calendar.getInstance();
         calendar.setTimeInMillis(bundle.getLong("calendar"));
+        updateDescription();
 
         for (int i = 0; i < bundle.getString("days").length(); i++) {
             days[i] = bundle.getString("days").charAt(i) == '1';

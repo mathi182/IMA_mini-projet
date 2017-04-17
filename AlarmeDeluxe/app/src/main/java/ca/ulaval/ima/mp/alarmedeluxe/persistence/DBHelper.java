@@ -10,14 +10,14 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AccelerometerAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.AlarmTypeFactory;
-import ca.ulaval.ima.mp.alarmedeluxe.types.GeolocationAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.LuminosityAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.MathsAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.StandardAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.types.YoutubeAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AccelerometerAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmTypeFactory;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.GeolocationAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.LuminosityAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.MathsAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.StandardAlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.YoutubeAlarmType;
 
 public class DBHelper extends SQLiteOpenHelper {
 
