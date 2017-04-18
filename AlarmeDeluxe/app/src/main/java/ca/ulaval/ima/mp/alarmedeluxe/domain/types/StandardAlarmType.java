@@ -135,7 +135,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     public void buildFromBundle(Bundle bundle) {
         id = bundle.getInt("id");
         name = bundle.getString("name");
-        isDefault = bundle.getBoolean("default");
+        isDefault = bundle.getInt("default") == 1;
     }
 
     @Override

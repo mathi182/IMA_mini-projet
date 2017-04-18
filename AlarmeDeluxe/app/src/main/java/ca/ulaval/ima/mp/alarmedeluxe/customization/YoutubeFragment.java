@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
-
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -22,35 +26,42 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeScopes;
-import com.google.api.services.youtube.model.VideoGetRatingResponse;
+import com.google.api.services.youtube.model.SearchResult;
 import com.google.common.collect.Lists;
 
-
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.UiThread;
-
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
+import ca.ulaval.ima.mp.alarmedeluxe.adapter.AlarmTypeListAdapter;
+import ca.ulaval.ima.mp.alarmedeluxe.adapter.YoutubeSearchListAdapter;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmTypeFactory;
+import ca.ulaval.ima.mp.alarmedeluxe.domain.types.DividerItemDecoration;
+import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
+import ca.ulaval.ima.mp.alarmedeluxe.youtube.YoutubeSearch;
 
 import static com.google.android.gms.internal.zzs.TAG;
 
-public class YoutubeFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+public class YoutubeFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, SearchView.OnQueryTextListener, YoutubeSearch.AsyncYoutubeResponse {
     GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
+    private TextView mStatusTextView, txt_noYoutube_alarm;
     private SignInButton signInButton;
-    private Button signOutButton;
+    private Button signOutButton, btn_newYoutubeAlarm;
     int RC_SIGN_IN =42;
     private YouTube youTube;
     private String url = "a4NT5iBFuZs";
     private TextView currentRating;
+    private SearchView searchView;
+    private RecyclerView youtubeListSearch, alarmTypeList;
+    private List<SearchResult> results = new ArrayList<>();
+    private List<AlarmType> alarmTypes = new ArrayList<>();
+    private YoutubeSearchListAdapter seachListAdapter;
+    private AlarmTypeListAdapter typeListAdapter;
+    private DBHelper database;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //public GoogleSignInOptions.Builder requestScopes (Scope scope, Scope... scopes)
@@ -64,37 +75,67 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
                 .build();
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
-// options specified by gso.
+        // options specified by gso.
         List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube.upload");
 
-         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        try {
+            if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                        .build();
 
+                gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestScopes(new Scope("https://www.googleapis.com/auth/youtube"))
+                        .requestEmail()
+                        .requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
+                        .build();
 
-        if (mGoogleApiClient == null) {
-            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestScopes(new Scope("https://www.googleapis.com/auth/youtube"))
-                    .requestEmail()
-                    .requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
-                    .build();
+                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                        .build();
+            }
+        } catch (IllegalStateException ex) {
 
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-
-                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                    .build();
         }
-
         // Set the dimensions of the sign-in button.
         View view = inflater.inflate(R.layout.fragment_youtube, container, false);
-        currentRating = (TextView)view.findViewById(R.id.lblRating);
+        database = new DBHelper(getContext());
+        //currentRating = (TextView)view.findViewById(R.id.lblRating);
         signInButton = (SignInButton) view.findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
-        signOutButton = (Button) view.findViewById(R.id.sign_out_button);
-        mStatusTextView = (TextView) view.findViewById(R.id.connection_status);
+
+        seachListAdapter = new YoutubeSearchListAdapter(results, getContext());
+        youtubeListSearch = (RecyclerView)view.findViewById(R.id.youtube_list_search);
+        youtubeListSearch.setAdapter(seachListAdapter);
+        youtubeListSearch.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        youtubeListSearch.setItemAnimator(new DefaultItemAnimator());
+        youtubeListSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
+
+        //signOutButton = (Button) view.findViewById(R.id.sign_out_button);
+        //mStatusTextView = (TextView) view.findViewById(R.id.connection_status);
+
+        txt_noYoutube_alarm = (TextView)view.findViewById(R.id.txt_no_youtube_alarms);
+        searchView = (SearchView)view.findViewById(R.id.txt_youtube_search);
+        searchView.setOnQueryTextListener(this);
+
+        alarmTypes.addAll(database.getAllAlarmTypes(AlarmTypeFactory.YOUTUBE_ALARM_TYPE_NAME));
+        typeListAdapter = new AlarmTypeListAdapter(alarmTypes, getContext());
+        alarmTypeList = (RecyclerView)view.findViewById(R.id.list_youtube_alarms);
+        alarmTypeList.setAdapter(typeListAdapter);
+        alarmTypeList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        alarmTypeList.setItemAnimator(new DefaultItemAnimator());
+        alarmTypeList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
+
+        btn_newYoutubeAlarm = (Button)view.findViewById(R.id.btn_newyoutube);
+        btn_newYoutubeAlarm.setOnClickListener(this);
+
+        if (alarmTypes.isEmpty()) {
+            txt_noYoutube_alarm.setVisibility(View.VISIBLE);
+        } else {
+            txt_noYoutube_alarm.setVisibility(View.GONE);
+        }
+
         return view;
     }
 
@@ -104,11 +145,11 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            //updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
-            updateUI(false);
+            //updateUI(false);
         }
     }
 
@@ -122,6 +163,10 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
             signInButton.setVisibility(View.VISIBLE);
             signOutButton.setVisibility(View.GONE);
         }
+    }
+
+    public void updateAlarmTypeList() {
+
     }
 /*
     @Background
@@ -160,17 +205,17 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
     }*/
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
+        Log.e("YOUTUBE", "Connected");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.e("YOUTUBE", "Suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.e("YOUTUBE", "Failed");
     }
 
     private void signIn() {
@@ -194,7 +239,47 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
             case R.id.sign_in_button:
                 signIn();
                 break;
-            // ...
+            case R.id.btn_newyoutube:
+                AlarmType youtubeAlarmType = seachListAdapter.getSelectedAlarmTpe();
+                long id = database.insertAlarmType(youtubeAlarmType, null);
+                youtubeAlarmType.setAlarmId((int)id);
+                alarmTypes.add(youtubeAlarmType);
+                typeListAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return onQueryTextChange(query);
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        new YoutubeSearch(this).execute(newText);
+
+        return true;
+    }
+
+    @Override
+    public void processFinish(List<SearchResult> results) {
+        this.results.clear();
+        this.results.addAll(results);
+        seachListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
     }
 }

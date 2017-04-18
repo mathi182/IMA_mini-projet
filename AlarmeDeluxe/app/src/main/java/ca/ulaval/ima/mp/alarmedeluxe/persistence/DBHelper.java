@@ -64,7 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         ALARM_TYPE_COLUMN_ID + " integer primary key autoincrement, " +
                         ALARM_TYPE_COLUMN_NAME + " text, " +
                         ALARM_TYPE_COLUMN_DESCRIPTION + " text, " +
-                        ALARM_TYPE_COLUMN_DURATION + " integer, " +
+                        ALARM_TYPE_COLUMN_DURATION + " real, " +
                         ALARM_TYPE_COLUMN_DEFAULT + " integer, " +
                         ALARM_TYPE_COLUMN_STRENGTH + " real, " +
                         ALARM_TYPE_COLUMN_URL + " text)"
@@ -161,7 +161,7 @@ public class DBHelper extends SQLiteOpenHelper {
             alarmTypeBundle.putInt("id", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_ID)));
             alarmTypeBundle.putString("name", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_NAME)));
             alarmTypeBundle.putString("description", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DESCRIPTION)));
-            alarmTypeBundle.putInt("duration", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DURATION)));
+            alarmTypeBundle.putDouble("duration", cursorAlarm.getDouble(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DURATION)));
             alarmTypeBundle.putInt("default", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DEFAULT)));
             alarmTypeBundle.putDouble("strength", cursorAlarm.getDouble(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_STRENGTH)));
             alarmTypeBundle.putString("url", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_URL)));
@@ -199,7 +199,7 @@ public class DBHelper extends SQLiteOpenHelper {
             alarmTypeBundle.putInt("id", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_ID)));
             alarmTypeBundle.putString("name", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_NAME)));
             alarmTypeBundle.putString("description", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DESCRIPTION)));
-            alarmTypeBundle.putInt("duration", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DURATION)));
+            alarmTypeBundle.putDouble("duration", cursorAlarm.getDouble(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DURATION)));
             alarmTypeBundle.putInt("default", cursorAlarm.getInt(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_DEFAULT)));
             alarmTypeBundle.putDouble("strength", cursorAlarm.getDouble(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_STRENGTH)));
             alarmTypeBundle.putString("url", cursorAlarm.getString(cursorAlarm.getColumnIndex(ALARM_TYPE_COLUMN_URL)));

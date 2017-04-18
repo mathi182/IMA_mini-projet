@@ -7,7 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
-import ca.ulaval.ima.mp.alarmedeluxe.YoutubeAlarmActivity_;
+import ca.ulaval.ima.mp.alarmedeluxe.youtube.YoutubeAlarmActivity;
 
 public class YoutubeAlarmType extends Fragment implements AlarmType {
 
@@ -20,13 +20,16 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
 
     public YoutubeAlarmType() {
         id = -1;
-        name = "YouTube video";
+        name = AlarmTypeFactory.YOUTUBE_ALARM_TYPE_NAME;
         description = "Default";
         logoResource = R.mipmap.ic_youtube_dark;
     }
 
     public void buildFromParcel(Parcel in) {
-        isDefault = false;
+        id = in.readInt();
+        description = in.readString();
+        url = in.readString();
+        isDefault = in.readInt() == 1;
     }
 
     @Override
@@ -41,7 +44,10 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeInt(id);
+        dest.writeString(description);
+        dest.writeString(url);
+        dest.writeInt(isDefault ? 1 : 0);
     }
 
     public static final Parcelable.Creator<YoutubeAlarmType> CREATOR = new Parcelable.Creator<YoutubeAlarmType>() {
@@ -67,7 +73,7 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
 
     @Override
     public Activity getAlarmActivity(){
-        return new YoutubeAlarmActivity_();
+        return new YoutubeAlarmActivity();
     }
 
     @Override
@@ -112,10 +118,10 @@ public class YoutubeAlarmType extends Fragment implements AlarmType {
 
     @Override
     public void buildFromBundle(Bundle bundle) {
-        id = bundle.getInt("id");
-        name = bundle.getString("name");
-        url = bundle.getString("url");
-        isDefault = bundle.getBoolean("default");
+        id = bundle.getInt("id", -1);
+        description = bundle.getString("description");
+        url = bundle.getString("url", "wZZ7oFKsKzY");
+        isDefault = bundle.getInt("default", 0) == 1;
     }
 
     @Override

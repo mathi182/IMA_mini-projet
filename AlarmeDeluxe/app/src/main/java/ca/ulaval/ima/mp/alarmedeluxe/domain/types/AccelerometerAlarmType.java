@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -12,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.hardware.SensorEventListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,7 +173,7 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
         description = bundle.getString("description");
         duration = bundle.getDouble("duration");
         forceNeeded = bundle.getDouble("strength");
-        isDefault = bundle.getBoolean("default");
+        isDefault = bundle.getInt("default") == 1;
     }
 
     @Override

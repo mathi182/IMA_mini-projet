@@ -130,7 +130,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
         id = bundle.getInt("id");
         description = bundle.getString("description");
         lightStrength = bundle.getDouble("strength");
-        isDefault = bundle.getBoolean("default");
+        isDefault = bundle.getInt("default") == 1;
     }
 
     @Override
@@ -140,7 +140,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
 
     public void buildFromParcel(Parcel in) {
         name = in.readString();
-        isDefault = in.readInt() == 1 ? true : false;
+        isDefault = in.readInt() == 1;
     }
 
     public static final Parcelable.Creator<LuminosityAlarmType> CREATOR = new Parcelable.Creator<LuminosityAlarmType>() {

@@ -1,7 +1,6 @@
 package ca.ulaval.ima.mp.alarmedeluxe.adapter;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
