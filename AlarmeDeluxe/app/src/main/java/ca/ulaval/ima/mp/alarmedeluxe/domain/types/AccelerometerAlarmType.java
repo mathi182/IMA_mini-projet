@@ -54,6 +54,8 @@ public class AccelerometerAlarmType extends Fragment implements AlarmType, Senso
         name = "Shaking";
         description = "Default";
         logoResource = R.mipmap.ic_accelerometer_dark;
+        duration = 0.5;
+        forceNeeded = 0.5;
     }
 
     public void buildFromParcel(Parcel in) {

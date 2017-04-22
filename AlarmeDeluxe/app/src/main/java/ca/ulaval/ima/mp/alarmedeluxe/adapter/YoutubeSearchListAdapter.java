@@ -77,7 +77,11 @@ public class YoutubeSearchListAdapter extends RecyclerView.Adapter<YoutubeSearch
         return results.size();
     }
 
-    public AlarmType getSelectedAlarmTpe() {
+    public AlarmType getSelectedAlarmType() {
+        if (selectedPosition < 0 || selectedPosition > results.size()) {
+            return null;
+        }
+
         AlarmType youtubeAlarmType = new YoutubeAlarmType();
         SearchResult result = results.get(selectedPosition);
         Bundle bundle = new Bundle();

@@ -16,12 +16,11 @@ import ca.ulaval.ima.mp.alarmedeluxe.customization.YoutubeFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
-    private static final String[] TABS_HEADER = {"Home", "YouTube", "Luminosity", "Shaking", "Maths", "Settings"};
+    private static final String[] TABS_HEADER = {"Home", "YouTube", "Luminosity", "Shaking", "Settings"};
     private static final int[] TABS_ICONS = {R.drawable.ic_tabs_home,
             R.drawable.ic_tabs_youtube,
             R.drawable.ic_tabs_luminosity,
             R.drawable.ic_tabs_accelerometer,
-            R.drawable.ic_tabs_maths,
             R.drawable.ic_tabs_settings};
 
     public PagerAdapter(FragmentManager fm) {
@@ -45,11 +44,8 @@ public class PagerAdapter extends FragmentPagerAdapter implements PagerSlidingTa
                 AccelerometerFragment tab4 = new AccelerometerFragment();
                 return tab4;
             case 4:
-                MathsFragment tab5 = new MathsFragment();
+                SettingsFragment tab5 = new SettingsFragment();
                 return tab5;
-            case 5:
-                SettingsFragment tab6 = new SettingsFragment();
-                return tab6;
             default:
                 return null;
         }

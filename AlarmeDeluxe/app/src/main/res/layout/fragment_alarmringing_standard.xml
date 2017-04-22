@@ -6,6 +6,10 @@
     <Button
         android:text="Close"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_close" />
+        android:layout_height="match_parent"
+        android:id="@+id/btn_close"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:textColorLink="@color/colorPrimary"
+        android:textSize="80sp"
+        android:textColor="@color/header" />
 </LinearLayout>

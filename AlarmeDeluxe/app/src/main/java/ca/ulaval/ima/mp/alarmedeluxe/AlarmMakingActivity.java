@@ -56,7 +56,6 @@ public class AlarmMakingActivity extends AppCompatActivity {
         alarmTypes.add(new StandardAlarmType());
         alarmTypes.add(new AccelerometerAlarmType());
         alarmTypes.add(new LuminosityAlarmType());
-        alarmTypes.add(new MathsAlarmType());
         alarmTypes.add(new YoutubeAlarmType());
 
         alarmTypeAdapter = new AlarmTypeSpinnerAdapter(this, R.layout.alarmtype_spinner_row, alarmTypes);

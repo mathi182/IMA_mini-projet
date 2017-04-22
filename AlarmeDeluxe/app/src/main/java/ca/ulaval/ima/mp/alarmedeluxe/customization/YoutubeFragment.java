@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -46,13 +47,12 @@ import ca.ulaval.ima.mp.alarmedeluxe.youtube.YoutubeSearch;
 import static com.google.android.gms.internal.zzs.TAG;
 
 public class YoutubeFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, SearchView.OnQueryTextListener, YoutubeSearch.AsyncYoutubeResponse {
-    GoogleApiClient mGoogleApiClient;
+
+    private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView, txt_noYoutube_alarm;
-    private SignInButton signInButton;
-    private Button signOutButton, btn_newYoutubeAlarm;
-    int RC_SIGN_IN =42;
+    private Button  btn_newYoutubeAlarm;
+    private int RC_SIGN_IN = 42;
     private YouTube youTube;
-    private String url = "a4NT5iBFuZs";
     private TextView currentRating;
     private SearchView searchView;
     private RecyclerView youtubeListSearch, alarmTypeList;
@@ -100,10 +100,6 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
         // Set the dimensions of the sign-in button.
         View view = inflater.inflate(R.layout.fragment_youtube, container, false);
         database = new DBHelper(getContext());
-        //currentRating = (TextView)view.findViewById(R.id.lblRating);
-        signInButton = (SignInButton) view.findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setOnClickListener(this);
 
         seachListAdapter = new YoutubeSearchListAdapter(results, getContext());
         youtubeListSearch = (RecyclerView)view.findViewById(R.id.youtube_list_search);
@@ -150,18 +146,6 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
         } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);
-        }
-    }
-
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            signInButton.setVisibility(View.GONE);
-            signOutButton.setVisibility(View.VISIBLE);
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
-
-            signInButton.setVisibility(View.VISIBLE);
-            signOutButton.setVisibility(View.GONE);
         }
     }
 
@@ -240,7 +224,13 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
                 signIn();
                 break;
             case R.id.btn_newyoutube:
-                AlarmType youtubeAlarmType = seachListAdapter.getSelectedAlarmTpe();
+                AlarmType youtubeAlarmType = seachListAdapter.getSelectedAlarmType();
+
+                if (youtubeAlarmType == null) {
+                    Toast.makeText(getContext(), "You must select a video.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 long id = database.insertAlarmType(youtubeAlarmType, null);
                 youtubeAlarmType.setAlarmId((int)id);
                 alarmTypes.add(youtubeAlarmType);

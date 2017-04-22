@@ -16,6 +16,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
@@ -32,6 +33,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     private double lightStrength;
     private double lightStrengthAtStart = -1;
     private Activity activity;
+    private TextView txt_luminosity;
 
     public LuminosityAlarmType() {
         id = -1;
@@ -45,6 +47,9 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.alarm_ringing_luminosity, container, false);
+
+        txt_luminosity = (TextView)view.findViewById(R.id.txt_luminosity);
+        txt_luminosity.setText("");
 
         return view;
     }
@@ -174,6 +179,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     public void onSensorChanged(SensorEvent event) {
         if (lightStrengthAtStart == -1) {
             lightStrengthAtStart = event.values[0];
+            txt_luminosity.setText(String.valueOf(lightStrengthAtStart/lightStrength) + "%");
         }
         if (lightStrengthAtStart + lightStrength >= 360) {
             lightStrength = 360 - lightStrengthAtStart;
@@ -181,6 +187,16 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
         if (event.values[0] >= lightStrengthAtStart + lightStrength) {
             stop();
         }
+
+        double ratio = event.values[0]/(lightStrengthAtStart + lightStrength);
+
+        if (ratio > 1) {
+            ratio = 1;
+        }
+
+        ratio = Math.round(ratio * 100) / 100;
+
+        txt_luminosity.setText(String.valueOf(ratio) + "%");
     }
 
     @Override
