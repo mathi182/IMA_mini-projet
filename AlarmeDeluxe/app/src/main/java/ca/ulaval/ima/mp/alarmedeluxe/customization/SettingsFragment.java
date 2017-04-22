@@ -1,10 +1,8 @@
 package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -55,7 +53,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 double volume = (double)seekBar.getProgress()/seekBar.getMax();
-                database.updsertSettings(null,String.valueOf(volume),"volume");
+                database.updateOrInsertSettings(null,String.valueOf(volume),"volume");
             }
         });
 

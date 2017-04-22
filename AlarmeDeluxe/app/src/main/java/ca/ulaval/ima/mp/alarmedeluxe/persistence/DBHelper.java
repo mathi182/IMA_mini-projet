@@ -93,10 +93,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + ALARMS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ALARM_TYPE_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SETTINGS);
         onCreate(db);
     }
 
-    public void updsertSettings(SQLiteDatabase db,String value,String name){
+    public void updateOrInsertSettings(SQLiteDatabase db, String value, String name){
         if (db == null) {
             db = this.getWritableDatabase();
         }
@@ -113,11 +114,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String getSettings(String name){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select "+SETTINGS_COLUMN_VALUE+" from " + SETTINGS + " where "+SETTINGS_COLUMN_NAME+" = '" + name + "'", null );
+        Cursor res =  db.rawQuery( "select " + SETTINGS_COLUMN_VALUE + " from " + SETTINGS + " where " + SETTINGS_COLUMN_NAME + " = '" + name + "'", null );
+        res.moveToFirst();
+
         if(res.getCount() == 0){
-            return"";
+            return "";
         }
-        String s = res.getString(0);
+
+        String s = res.getString(res.getColumnIndex(SETTINGS_COLUMN_VALUE));
+
         return s;
     }
     /*public Cursor getRingtone(){
