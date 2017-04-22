@@ -1,6 +1,7 @@
 package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -9,20 +10,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ca.ulaval.ima.mp.alarmedeluxe.MainActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.adapter.RingtoneAdapter;
+import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
 
 public class SettingsFragment extends Fragment {
 
     private RingtoneAdapter adapter;
     private List<Ringtone> ringtones = new ArrayList<>();
     private Spinner spn_ringtones;
+    private DBHelper database;
+    private SeekBar sb;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +38,46 @@ public class SettingsFragment extends Fragment {
         spn_ringtones = (Spinner)v.findViewById(R.id.spn_ringtones);
         spn_ringtones.setAdapter(adapter);
 
+        database =((MainActivity)getActivity()).getDatabase();
+
+        sb = (SeekBar)v.findViewById(R.id.seekBar);
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                double volume = (double)seekBar.getProgress()/seekBar.getMax();
+                database.updsertSettings(null,String.valueOf(volume),"volume");
+            }
+        });
+
+        setSettings();
         return v;
+    }
+
+    private void setSettings() {
+        setVolume();
+
+    }
+
+    private void setVolume() {
+        String volumeText = database.getSettings("volume");
+        if(volumeText.equals("")){
+            sb.setProgress(50);
+
+        }else{
+            int volume = (int)(Double.parseDouble(volumeText)*sb.getMax());
+            sb.setProgress(volume);
+        }
+
     }
 
     @Override

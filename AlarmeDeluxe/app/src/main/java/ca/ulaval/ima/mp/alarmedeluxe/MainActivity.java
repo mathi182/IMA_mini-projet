@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         createAlarmManager(this);
     }
 
+    public DBHelper getDatabase(){ return database;}
     public boolean deleteAlarm(Alarm alarm) {
         return database.deleteAlarm(alarm) >= 0;
     }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
@@ -41,6 +42,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String ALARM_TYPE_COLUMN_STRENGTH = "strength";
     public static final String ALARM_TYPE_COLUMN_URL = "url";
 
+    public static final String SETTINGS = "settings";
+    public static final String SETTINGS_COLUMN_NAME = "name";
+    public static final String SETTINGS_COLUMN_VALUE = "value";
+
     public DBHelper(Context context) {
         super(context, DB_NAME, null, 1);
     }
@@ -70,6 +75,12 @@ public class DBHelper extends SQLiteOpenHelper {
                         ALARM_TYPE_COLUMN_URL + " text)"
         );
 
+        db.execSQL(
+                "create table " + SETTINGS + " (" +
+                        SETTINGS_COLUMN_NAME + " text, " +
+                        SETTINGS_COLUMN_VALUE + " text)"
+        );
+
         insertAlarmType(new StandardAlarmType(), db);
         insertAlarmType(new AccelerometerAlarmType(), db);
         insertAlarmType(new LuminosityAlarmType(), db);
@@ -84,6 +95,38 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ALARM_TYPE_TABLE_NAME);
         onCreate(db);
     }
+
+    public void updsertSettings(SQLiteDatabase db,String value,String name){
+        if (db == null) {
+            db = this.getWritableDatabase();
+        }
+        ContentValues cv = new ContentValues();
+        cv.put(SETTINGS_COLUMN_VALUE,value);
+        try{
+            db.update(SETTINGS,cv,SETTINGS_COLUMN_NAME+"="+name,null);
+        }catch (SQLiteException e){
+            cv.put(SETTINGS_COLUMN_NAME,name);
+            long count = db.insert(SETTINGS,null,cv);
+            String x = "as";
+        }
+    }
+
+    public String getSettings(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select "+SETTINGS_COLUMN_VALUE+" from " + SETTINGS + " where "+SETTINGS_COLUMN_NAME+" = '" + name + "'", null );
+        if(res.getCount() == 0){
+            return"";
+        }
+        String s = res.getString(0);
+        return s;
+    }
+    /*public Cursor getRingtone(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select "+SETTINGS_COLUMN_VALUE+" from " + SETTINGS + " where "+SETTINGS_COLUMN_NAME+"=ringtone", null );
+        String s = res.getString(0);
+        return res;
+    }*/
+
 
     public long insertAlarm(Alarm alarm, SQLiteDatabase db) {
         if (db == null) {
