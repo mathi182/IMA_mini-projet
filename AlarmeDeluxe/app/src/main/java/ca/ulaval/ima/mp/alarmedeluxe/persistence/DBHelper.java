@@ -77,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table " + SETTINGS + " (" +
-                        SETTINGS_COLUMN_NAME + " text, " +
+                        SETTINGS_COLUMN_NAME + " text primary key, " +
                         SETTINGS_COLUMN_VALUE + " text)"
         );
 

@@ -30,6 +30,7 @@ public class SettingsFragment extends Fragment {
     private Spinner spn_ringtones;
     private DBHelper database;
     private SeekBar sb;
+    private ToggleButton toggle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class SettingsFragment extends Fragment {
 
             }
         });
-        ToggleButton toggle = (ToggleButton)v.findViewById(R.id.toggleButton);
+        toggle = (ToggleButton)v.findViewById(R.id.toggleButton);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,6 +90,17 @@ public class SettingsFragment extends Fragment {
     private void setSettings() {
         setVolume();
         setRingtone();
+        setToggler();
+    }
+
+    private void setToggler() {
+        String toggleOn = database.getSettings("vibration");
+        if(toggleOn.equals("true")){
+            toggle.setChecked(true);
+
+        }else{
+            toggle.setChecked(false);
+        }
     }
 
     private void setRingtone() {
