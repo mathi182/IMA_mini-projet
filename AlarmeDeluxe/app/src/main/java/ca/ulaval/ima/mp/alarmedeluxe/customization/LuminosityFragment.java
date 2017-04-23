@@ -59,7 +59,7 @@ public class LuminosityFragment extends Fragment {
 
                 bundle.putString("description", txt_newName.getText().toString());
                 bundle.putDouble("strength", skb_intensity.getProgress()/skb_intensity.getMax());
-                bundle.putBoolean("default", false);
+                bundle.putInt("default", 0);
 
                 luminosity.buildFromBundle(bundle);
 

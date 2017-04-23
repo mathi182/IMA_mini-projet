@@ -77,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table " + SETTINGS + " (" +
-                        SETTINGS_COLUMN_NAME + " text, " +
+                        SETTINGS_COLUMN_NAME + " text primary key, " +
                         SETTINGS_COLUMN_VALUE + " text)"
         );
 
@@ -101,23 +101,27 @@ public class DBHelper extends SQLiteOpenHelper {
         if (db == null) {
             db = this.getWritableDatabase();
         }
+
         ContentValues cv = new ContentValues();
-        cv.put(SETTINGS_COLUMN_VALUE,value);
-        try{
-            db.update(SETTINGS,cv,SETTINGS_COLUMN_NAME+" = '" + name + "'",null);
-        }catch (SQLiteException e){
-            cv.put(SETTINGS_COLUMN_NAME,name);
-            db.insert(SETTINGS,null,cv);
+        cv.put(SETTINGS_COLUMN_VALUE, value);
+        cv.put(SETTINGS_COLUMN_NAME, name);
+
+        String getValue = getSettings(name);
+
+        if (getValue == null) {
+            db.insert(SETTINGS, null, cv);
+        } else {
+            db.update(SETTINGS, cv, SETTINGS_COLUMN_NAME + " = '" + name + "'", null);
         }
     }
 
     public String getSettings(String name){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select " + SETTINGS_COLUMN_VALUE + " from " + SETTINGS + " where " + SETTINGS_COLUMN_NAME + " = '" + name + "'", null );
+        Cursor res =  db.rawQuery( "select * from " + SETTINGS + " where " + SETTINGS_COLUMN_NAME + " = '" + name + "'", null );
         res.moveToFirst();
 
         if(res.getCount() == 0){
-            return "";
+            return null;
         }
 
         String s = res.getString(res.getColumnIndex(SETTINGS_COLUMN_VALUE));
