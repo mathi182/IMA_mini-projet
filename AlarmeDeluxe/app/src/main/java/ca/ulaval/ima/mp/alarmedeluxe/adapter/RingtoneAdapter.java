@@ -2,40 +2,41 @@ package ca.ulaval.ima.mp.alarmedeluxe.adapter;
 
 import android.content.Context;
 import android.media.Ringtone;
-import android.net.Uri;
+import android.media.RingtoneManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.ima.mp.alarmedeluxe.R;
 
-public class RingtoneAdapter extends ArrayAdapter<Ringtone> {
+public class RingtoneAdapter extends ArrayAdapter<Uri> {
 
-    private List<Ringtone> ringtones = new ArrayList<>();
+    private List<Uri> uris = new ArrayList<>();
     private LayoutInflater inflator;
     private Context context;
 
-    public RingtoneAdapter(Context context, int resource, List<Ringtone> list) {
+    public RingtoneAdapter(Context context, int resource, List<Uri> list) {
         super(context, resource, list);
 
         this.context = context;
-        ringtones = list;
+        uris = list;
         inflator = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return ringtones.size();
+        return uris.size();
     }
 
     @Override
-    public Ringtone getItem(int position) {
-        return ringtones.get(position);
+    public Uri getItem(int position) {
+        return uris.get(position);
     }
 
     @Override
@@ -43,7 +44,8 @@ public class RingtoneAdapter extends ArrayAdapter<Ringtone> {
     {
         convertView = inflator.inflate(R.layout.alarm_types_subelement_row, parent, false);
         TextView tv = (TextView) convertView.findViewById(R.id.txt_alarmType_subelement);
-        tv.setText(ringtones.get(position).getTitle(context));
+        Ringtone ringtone = RingtoneManager.getRingtone(context,uris.get(position));
+        tv.setText(ringtone.getTitle(context));
         return convertView;
     }
 

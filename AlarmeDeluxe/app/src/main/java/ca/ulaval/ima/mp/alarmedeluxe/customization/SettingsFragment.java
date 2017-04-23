@@ -3,6 +3,7 @@ package ca.ulaval.ima.mp.alarmedeluxe.customization;
 import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
 public class SettingsFragment extends Fragment {
 
     private RingtoneAdapter adapter;
-    private List<Ringtone> ringtones = new ArrayList<>();
+    private List<Uri> ringtones = new ArrayList<>();
     private Spinner spn_ringtones;
     private DBHelper database;
     private SeekBar sb;
@@ -42,6 +43,8 @@ public class SettingsFragment extends Fragment {
         spn_ringtones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Uri uri = (Uri)parent.getSelectedItem();
+                //String encoded = uri.toString();
                 database.updateOrInsertSettings(null,String.valueOf(position),"ringtone");
             }
 
@@ -141,10 +144,10 @@ public class SettingsFragment extends Fragment {
         if (alarmsCount == 0 && !alarmsCursor.moveToFirst()) {
             return;
         }
-        Ringtone[] alarms = new Ringtone[alarmsCount];
+        Uri[] alarms = new Uri[alarmsCount];
         while(!alarmsCursor.isAfterLast() && alarmsCursor.moveToNext()) {
             int currentPosition = alarmsCursor.getPosition();
-            alarms[currentPosition] = ringtoneMgr.getRingtone(currentPosition);
+            alarms[currentPosition] = ringtoneMgr.getRingtoneUri(currentPosition);
         }
         alarmsCursor.close();
         ringtones.clear();

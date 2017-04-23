@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
+import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
 
 public class StandardAlarmType extends Fragment implements AlarmType {
 
@@ -26,6 +27,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     private Button btn_close;
     private int m_alarmId;
     private int logoResource;
+    private static final int MAX_VOLUME = 100;
 
     public StandardAlarmType() {
         id = -1;
@@ -141,14 +143,23 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        DBHelper database = new DBHelper(getActivity());
 
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        String positionText = database.getSettings("ringtone");
+        int position = Integer.parseInt(positionText);
+        RingtoneManager ringtoneManager = new RingtoneManager(getActivity());
+        Uri alarmUri = ringtoneManager.getRingtoneUri(position);
         if (alarmUri == null) {
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         }
+
+        String volumeText = database.getSettings("volume");
+        int desiredVolume = (int)(Double.parseDouble(volumeText)*MAX_VOLUME);
 
         //Ringtone ringtone = RingtoneManager.getRingtone(this, alarmUri);
         mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(),alarmUri);
+        float volume = (float) (1 - (Math.log(MAX_VOLUME - desiredVolume) / Math.log(MAX_VOLUME)));
+        mediaPlayer.setVolume(volume,volume);
         mediaPlayer.start();
         // Get the alarm ID from the intent extra data
         Bundle extras = getArguments();
