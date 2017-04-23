@@ -145,14 +145,12 @@ public class StandardAlarmType extends Fragment implements AlarmType {
         super.onActivityCreated(savedInstanceState);
         DBHelper database = new DBHelper(getActivity());
 
-        String positionText = database.getSettings("ringtone");
-        int position = Integer.parseInt(positionText);
-        RingtoneManager ringtoneManager = new RingtoneManager(getActivity());
-        Uri alarmUri = ringtoneManager.getRingtoneUri(position);
-        if (alarmUri == null) {
+        String encodedUri = database.getSettings("ringtone");
+        Uri alarmUri;
+        if (encodedUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         }
-
+        alarmUri =Uri.parse(encodedUri);
         String volumeText = database.getSettings("volume");
         int desiredVolume = (int)(Double.parseDouble(volumeText)*MAX_VOLUME);
 

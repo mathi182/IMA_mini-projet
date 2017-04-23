@@ -43,9 +43,9 @@ public class SettingsFragment extends Fragment {
         spn_ringtones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Uri uri = (Uri)parent.getSelectedItem();
-                //String encoded = uri.toString();
-                database.updateOrInsertSettings(null,String.valueOf(position),"ringtone");
+                Uri uri = (Uri)parent.getSelectedItem();
+                String encoded = uri.toString();
+                database.updateOrInsertSettings(null,encoded,"ringtone");
             }
 
             @Override
@@ -86,7 +86,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        setSettings();
+
         return v;
     }
 
@@ -107,13 +107,13 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setRingtone() {
-        String positionText = database.getSettings("ringtone");
+        String encodedUri = database.getSettings("ringtone");
 
-        if(positionText == null){
+        if(encodedUri == null){
             spn_ringtones.setSelection(0);
         }else{
-            int position = Integer.parseInt(positionText);
-            spn_ringtones.setSelection(position);
+            Uri uri = Uri.parse(encodedUri);
+            spn_ringtones.setSelection(adapter.getPosition(uri));
         }
     }
 
@@ -134,6 +134,7 @@ public class SettingsFragment extends Fragment {
         super.onActivityCreated(savedInstance);
 
         getAllRingtones();
+        setSettings();
     }
 
     public void getAllRingtones() {
