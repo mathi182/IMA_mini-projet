@@ -8,8 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +38,29 @@ public class SettingsFragment extends Fragment {
         adapter = new RingtoneAdapter(getContext(), R.layout.alarm_types_subelement_row, ringtones);
         spn_ringtones = (Spinner)v.findViewById(R.id.spn_ringtones);
         spn_ringtones.setAdapter(adapter);
+        spn_ringtones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                database.updateOrInsertSettings(null,String.valueOf(position),"ringtone");
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        ToggleButton toggle = (ToggleButton)v.findViewById(R.id.toggleButton);
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    database.updateOrInsertSettings(null,"true","vibration");
+                }
+                else{
+                    database.updateOrInsertSettings(null,"false","vibration");
+                }
+            }
+        });
         database =((MainActivity)getActivity()).getDatabase();
 
         sb = (SeekBar)v.findViewById(R.id.seekBar);
@@ -63,7 +88,18 @@ public class SettingsFragment extends Fragment {
 
     private void setSettings() {
         setVolume();
+        setRingtone();
+    }
 
+    private void setRingtone() {
+        String positionText = database.getSettings("ringtone");
+        if(positionText.equals("")){
+            spn_ringtones.setSelection(0);
+
+        }else{
+            int position = Integer.parseInt(positionText);
+            spn_ringtones.setSelection(position);
+        }
     }
 
     private void setVolume() {

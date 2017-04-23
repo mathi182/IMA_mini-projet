@@ -104,11 +104,10 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(SETTINGS_COLUMN_VALUE,value);
         try{
-            db.update(SETTINGS,cv,SETTINGS_COLUMN_NAME+"="+name,null);
+            db.update(SETTINGS,cv,SETTINGS_COLUMN_NAME+" = '" + name + "'",null);
         }catch (SQLiteException e){
             cv.put(SETTINGS_COLUMN_NAME,name);
-            long count = db.insert(SETTINGS,null,cv);
-            String x = "as";
+            db.insert(SETTINGS,null,cv);
         }
     }
 
