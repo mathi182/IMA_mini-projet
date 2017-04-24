@@ -47,7 +47,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (backPressed) {
             alarm.stop();
-            finish(); //TODO: Snooze the alarm
+            finish();
         } else {
             backPressed = true;
             Toast.makeText(this, "Appuyez de nouveau pour retarder l'alarme.", Toast.LENGTH_SHORT).show();

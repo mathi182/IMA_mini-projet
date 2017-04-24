@@ -2,12 +2,15 @@ package ca.ulaval.ima.mp.alarmedeluxe.domain.types;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     private int m_alarmId;
     private int logoResource;
     private static final int MAX_VOLUME = 100;
+    private Vibrator vib;
 
     public StandardAlarmType() {
         id = -1;
@@ -105,6 +109,7 @@ public class StandardAlarmType extends Fragment implements AlarmType {
     public void stop() {
         mediaPlayer.stop();
         mediaPlayer.release();
+        vib.cancel();
         getActivity().finish();
     }
 
@@ -149,16 +154,35 @@ public class StandardAlarmType extends Fragment implements AlarmType {
         Uri alarmUri;
         if (encodedUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        }else{
+            alarmUri =Uri.parse(encodedUri);
         }
-        alarmUri =Uri.parse(encodedUri);
         String volumeText = database.getSettings("volume");
-        int desiredVolume = (int)(Double.parseDouble(volumeText)*MAX_VOLUME);
+        int desiredVolume;
+        if(volumeText == null){
+            desiredVolume = 100;
+        }else{
+            desiredVolume = (int)(Double.parseDouble(volumeText)*MAX_VOLUME);
+        }
+
 
         //Ringtone ringtone = RingtoneManager.getRingtone(this, alarmUri);
         mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(),alarmUri);
         float volume = (float) (1 - (Math.log(MAX_VOLUME - desiredVolume) / Math.log(MAX_VOLUME)));
         mediaPlayer.setVolume(volume,volume);
-        mediaPlayer.start();
+        vib =(Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        String toggleOn = database.getSettings("vibration");
+        if(toggleOn == null || toggleOn.equals("false")){
+            mediaPlayer.start();
+        }else{
+            long[] pattern = {0, 500, 1000};
+            vib.vibrate(pattern,0);
+        }
+
+
+
+
+
         // Get the alarm ID from the intent extra data
         Bundle extras = getArguments();
 

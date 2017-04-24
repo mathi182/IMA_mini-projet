@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import ca.ulaval.ima.mp.alarmedeluxe.AlarmRingingActivity;
 import ca.ulaval.ima.mp.alarmedeluxe.R;
+import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
 
 public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEventListener {
 
@@ -34,6 +36,8 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
     private double lightStrengthAtStart = -1;
     private Activity activity;
     private TextView txt_luminosity;
+    private static final int MAX_VOLUME = 100;
+    private Vibrator vib;
 
     public LuminosityAlarmType() {
         id = -1;
@@ -61,14 +65,37 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
         sensorManager = (SensorManager)getActivity().getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),SensorManager.SENSOR_DELAY_NORMAL);
 
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alarmUri == null) {
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        DBHelper database = new DBHelper(getActivity());
+
+        String encodedUri = database.getSettings("ringtone");
+        Uri alarmUri;
+        if (encodedUri == null) {
+            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        }
+        else{
+            alarmUri =Uri.parse(encodedUri);
+        }
+
+        String volumeText = database.getSettings("volume");
+        int desiredVolume;
+        if(volumeText == null){
+            desiredVolume = 100;
+        }else{
+            desiredVolume = (int)(Double.parseDouble(volumeText)*MAX_VOLUME);
         }
 
         //Ringtone ringtone = RingtoneManager.getRingtone(this, alarmUri);
         mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(),alarmUri);
-        mediaPlayer.start();
+        float volume = (float) (1 - (Math.log(MAX_VOLUME - desiredVolume) / Math.log(MAX_VOLUME)));
+        mediaPlayer.setVolume(volume,volume);
+        vib =(Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        String toggleOn = database.getSettings("vibration");
+        if(toggleOn == null || toggleOn.equals("false")){
+            mediaPlayer.start();
+        }else{
+            long[] pattern = {0, 500, 1000};
+            vib.vibrate(pattern,0);
+        }
     }
 
     @Override
