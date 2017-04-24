@@ -25,7 +25,7 @@ public class YoutubeVideoRatingFetch extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
-        //Credential credential = Auth.authorize(scopes, "getrating");
+        //Credential credential = YoutubeAuth.authorize(scopes, "getrating");
         youtube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), new HttpRequestInitializer() {
             @Override

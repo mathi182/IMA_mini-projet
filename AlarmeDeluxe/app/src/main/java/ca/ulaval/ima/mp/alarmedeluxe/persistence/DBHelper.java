@@ -126,6 +126,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         String s = res.getString(res.getColumnIndex(SETTINGS_COLUMN_VALUE));
 
+        res.close();
         return s;
     }
     /*public Cursor getRingtone(){
@@ -159,7 +160,8 @@ public class DBHelper extends SQLiteOpenHelper {
         content.put(ALARMS_COLUMN_DAYS, alarm.getStringDays());
         content.put(ALARMS_COLUMN_TYPE, alarm.getType().getAlarmId());
 
-        return db.insert(ALARMS_TABLE_NAME, null, content);
+        long toReturn = db.insert(ALARMS_TABLE_NAME, null, content);
+        return toReturn;
     }
 
     public long insertAlarmType(AlarmType alarmType, SQLiteDatabase db) {
@@ -174,29 +176,39 @@ public class DBHelper extends SQLiteOpenHelper {
         content.put(ALARM_TYPE_COLUMN_STRENGTH, alarmType.getStrength());
         content.put(ALARM_TYPE_COLUMN_URL, alarmType.getURL());
 
-        return db.insert(ALARM_TYPE_TABLE_NAME, null, content);
+        long toReturn = db.insert(ALARM_TYPE_TABLE_NAME, null, content);
+        return toReturn;
     }
 
     public Cursor getAlarm(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from " + ALARMS_TABLE_NAME + " where id="+id+"", null );
+
+        res.close();
+        db.close();
         return res;
     }
 
     public Cursor getAlarmType(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from " + ALARM_TYPE_TABLE_NAME + " where id="+id+"", null );
+
+        res.close();
         return res;
     }
 
     public Integer deleteAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(ALARMS_TABLE_NAME, "id = ? ", new String[] { Integer.toString(alarm.getId()) });
+
+        Integer toReturn = db.delete(ALARMS_TABLE_NAME, "id = ? ", new String[] { Integer.toString(alarm.getId()) });
+        return toReturn;
     }
 
     public Integer deleteAlarmType(Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(ALARM_TYPE_TABLE_NAME, "id = ? ", new String[] { Integer.toString(id) });
+
+        Integer toReturn = db.delete(ALARM_TYPE_TABLE_NAME, "id = ? ", new String[] { Integer.toString(id) });
+        return toReturn;
     }
 
     public ArrayList<Alarm> getAllAlarms() {
@@ -234,6 +246,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
             cursorAlarm.moveToNext();
         }
+
+        cursorAlarm.close();
         return array_list;
     }
 
@@ -261,6 +275,7 @@ public class DBHelper extends SQLiteOpenHelper {
             cursorAlarm.moveToNext();
         }
 
+        cursorAlarm.close();
         return array_list;
     }
 }

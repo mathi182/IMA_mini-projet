@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "317821940747",
+    "project_id": "deluxealarm"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317821940747:android:76e7abafe3faff56",
+        "android_client_info": {
+          "package_name": "ca.ulaval.ima.mp.alarmedeluxe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317821940747-s69a7s79dd3m13q5cpl34vkbairei28b.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "317821940747-fgrfg5mgrrvc78mfatlme1fo3sfkt531.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.ulaval.ima.mp.alarmedeluxe",
+            "certificate_hash": "034d56d8605c68ac56b0fd33da2bf5c5247884b1"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq4vnKm19yYxZIav7L_qd5KLHdCC5tksc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

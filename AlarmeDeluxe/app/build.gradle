@@ -39,5 +39,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.android.support:recyclerview-v7:25.1.1'
+
+    compile 'com.google.http-client:google-http-client-android:1.17.0-rc' exclude module: 'httpclient'
+    compile 'com.google.api-client:google-api-client-android:1.17.0-rc' exclude module: 'httpclient'
+    compile 'com.google.api-client:google-api-client-gson:1.17.0-rc' exclude module: 'httpclient'
+
+    compile 'com.google.apis:google-api-services-tasks:v1-rev47-1.22.0'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,15 +1,10 @@
 package ca.ulaval.ima.mp.alarmedeluxe.youtube;
 
-import android.Manifest;
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,40 +12,54 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeScopes;
+import com.google.common.collect.Lists;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 
+import java.util.List;
+
 import ca.ulaval.ima.mp.alarmedeluxe.R;
-import ca.ulaval.ima.mp.alarmedeluxe.auth.OnError;
 import ca.ulaval.ima.mp.alarmedeluxe.auth.OnTokenAcquired;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 
+import static com.google.android.gms.internal.zzs.TAG;
+
 @EActivity
-public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, YoutubeVideoRatingFetch.AsyncYoutubeResponse, OnTokenAcquired.AsyncTokenRequest {
+public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, YoutubeVideoRatingFetch.AsyncYoutubeResponse, OnTokenAcquired.AsyncTokenRequest, YoutubeSetVideoRating.AsyncYoutubeResponse {
     private static final int AUTH_PHASE_TWO = 200;
+    private static final int RC_REAUTHORIZE = 300;
     private Alarm alarm;
     private YouTubePlayerView youTubePlayerView;
     private YouTubePlayer.OnInitializedListener onInitializedListener;
     private String url = "a4NT5iBFuZs";
-    private YouTube youTube;
+    private YouTube youtube;
     private TextView currentRating;
     private GoogleApiClient mGoogleApiClient;
     private int RC_SIGN_IN = 42;
     private Button btn_like, btn_dislike;
     private String scope = "https://www.googleapis.com/auth/youtube.force-ssl";
     private AccountManager am;
+    private GoogleAccountCredential credential;
+    private YouTube service;
+    private String userEmail = "";
+    private SignInButton btn_singIn;
+    private List<String> scopes = Lists.newArrayList(YouTubeScopes.YOUTUBE);
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +71,8 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
         btn_like = (Button)findViewById(R.id.btnLike);
         btn_like.setOnClickListener(this);
         btn_dislike.setOnClickListener(this);
+        btn_singIn = (SignInButton)findViewById(R.id.sign_in_button);
+        btn_singIn.setOnClickListener(this);
 
         // Show the activity over the lock screen
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
@@ -72,13 +83,12 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(YouTubeScopes.YOUTUBE_FORCE_SSL))
                 .requestEmail()
-                .requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
+                //.requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
                 .build();
 
-        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage((FragmentActivity) this /* FragmentActivity *///, this /* OnConnectionFailedListener */)
-                //.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                //.build();*/
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
         youTubePlayerView = (YouTubePlayerView)findViewById(R.id.youtube_player);
         onInitializedListener = new YouTubePlayer.OnInitializedListener(){
@@ -98,38 +108,19 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
         youTubePlayerView.initialize(getResources().getString(R.string.api_key),onInitializedListener);
     }
 
-    private boolean createAccountManager() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-
-            // Should we show an explanation?
-            if (this.shouldShowRequestPermissionRationale(Manifest.permission.GET_ACCOUNTS)) {
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-        Bundle options = new Bundle();
-        Account[] accounts = am.getAccountsByType(AccountManager.KEY_AUTHTOKEN); //TODO
-
-        am.getAuthToken(
-                accounts[0],                     // Account retrieved using getAccountsByType()
-                scope,                           // Auth scope
-                options,                        // Authenticator-specific options
-                this,                           // Your activity
-                new OnTokenAcquired(this),          // Callback called when a token is successfully acquired
-                new Handler(new OnError()));    // Callback called if an error occurs
-
-
-        return true;
-    }
-
+    /** Authorizes the installed application to access user's protected data. */
+    /*private static Credential authorize() throws Exception {
+        // load client secrets
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
+                new InputStreamReader(CalendarSample.class.getResourceAsStream("/client_secrets.json")));
+        // set up authorization code flow
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                httpTransport, JSON_FACTORY, clientSecrets,
+                Collections.singleton(CalendarScopes.CALENDAR)).setDataStoreFactory(dataStoreFactory)
+                .build();
+        // authorize
+        return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+    }*/
 
     @Background
     public void getVideoRating(){
@@ -150,10 +141,10 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
                 signIn();
                 break;
             case R.id.btnLike:
-                    createAccountManager();
+                new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[] {"like", alarm.getType().getURL()});
                 break;
             case R.id.btnDislike:
-
+                new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[] {"dislike", alarm.getType().getURL()});
                 break;
         }
     }
@@ -198,6 +189,56 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == AUTH_PHASE_TWO) {
             Log.e("OnResult", "AUTH_PHASE_TWO");
+        }
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+        if (requestCode == RC_REAUTHORIZE) {
+
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        boolean b = result.isSuccess();
+
+        if (b) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            userEmail = acct.getEmail();
+
+            credential = GoogleAccountCredential.usingOAuth2(this, scopes);
+            credential.setSelectedAccountName(userEmail);
+
+            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            //updateUI(true);
+        } else {
+            // Signed out, show unauthenticated UI.
+            //updateUI(false);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void processFinish(Intent output) {
+        if (output != null) {
+            startActivityForResult(output, RC_REAUTHORIZE);
         }
     }
 }

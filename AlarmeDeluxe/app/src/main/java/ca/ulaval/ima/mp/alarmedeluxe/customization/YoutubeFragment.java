@@ -135,20 +135,6 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
         return view;
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
-        } else {
-            // Signed out, show unauthenticated UI.
-            //updateUI(false);
-        }
-    }
-
     public void updateAlarmTypeList() {
 
     }
@@ -157,7 +143,7 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
     public void getVideoRating(){
 
         List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
-        //Credential credential = Auth.authorize(scopes, "getrating");
+        //Credential credential = YoutubeAuth.authorize(scopes, "getrating");
         youTube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), new HttpRequestInitializer() {
             @Override
@@ -208,21 +194,8 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
-    }
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
             case R.id.btn_newyoutube:
                 AlarmType youtubeAlarmType = seachListAdapter.getSelectedAlarmType();
 

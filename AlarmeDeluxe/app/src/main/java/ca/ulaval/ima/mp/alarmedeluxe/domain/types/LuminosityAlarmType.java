@@ -73,7 +73,7 @@ public class LuminosityAlarmType extends Fragment implements AlarmType, SensorEv
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         }
         else{
-            alarmUri =Uri.parse(encodedUri);
+            alarmUri = Uri.parse(encodedUri);
         }
 
         String volumeText = database.getSettings("volume");
