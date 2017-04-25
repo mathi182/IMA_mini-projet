@@ -37,7 +37,7 @@ public class YoutubeSetVideoRating extends AsyncTask<String, Void, Intent> {
             .build();
 
             youtube.videos().rate(params[1], params[0]).execute();
-
+            Log.e("YOP", "TEST");
             return null;
         } catch (UserRecoverableAuthIOException ex) {
             return ex.getIntent();

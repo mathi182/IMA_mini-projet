@@ -1,10 +1,14 @@
 package ca.ulaval.ima.mp.alarmedeluxe.youtube;
 
+import android.Manifest;
 import android.accounts.AccountManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -44,19 +48,16 @@ import static com.google.android.gms.internal.zzs.TAG;
 public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, YoutubeVideoRatingFetch.AsyncYoutubeResponse, OnTokenAcquired.AsyncTokenRequest, YoutubeSetVideoRating.AsyncYoutubeResponse {
     private static final int AUTH_PHASE_TWO = 200;
     private static final int RC_REAUTHORIZE = 300;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 400;
     private Alarm alarm;
     private YouTubePlayerView youTubePlayerView;
     private YouTubePlayer.OnInitializedListener onInitializedListener;
     private String url = "a4NT5iBFuZs";
-    private YouTube youtube;
     private TextView currentRating;
     private GoogleApiClient mGoogleApiClient;
     private int RC_SIGN_IN = 42;
     private Button btn_like, btn_dislike;
-    private String scope = "https://www.googleapis.com/auth/youtube.force-ssl";
-    private AccountManager am;
     private GoogleAccountCredential credential;
-    private YouTube service;
     private String userEmail = "";
     private SignInButton btn_singIn;
     private List<String> scopes = Lists.newArrayList(YouTubeScopes.YOUTUBE);
@@ -65,7 +66,6 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube_alarm);
         alarm = getIntent().getParcelableExtra("alarm");
-        am = AccountManager.get(this);
 
         btn_dislike = (Button)findViewById(R.id.btnDislike);
         btn_like = (Button)findViewById(R.id.btnLike);
@@ -106,6 +106,8 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
         getVideoRating();
 
         youTubePlayerView.initialize(getResources().getString(R.string.api_key),onInitializedListener);
+
+        updateUI(mGoogleApiClient.isConnected());
     }
 
     @Background
@@ -122,16 +124,22 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-            case R.id.btnLike:
-                new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[] {"like", alarm.getType().getURL()});
-                break;
-            case R.id.btnDislike:
-                new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[] {"dislike", alarm.getType().getURL()});
-                break;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+        } else {
+            switch (v.getId()) {
+                case R.id.sign_in_button:
+                    signIn();
+                    break;
+                case R.id.btnLike:
+                    new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[]{"like", alarm.getType().getURL()});
+                    break;
+                case R.id.btnDislike:
+                    new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[]{"dislike", alarm.getType().getURL()});
+                    break;
+            }
         }
     }
 
@@ -180,8 +188,8 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
-        if (requestCode == RC_REAUTHORIZE) {
-
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS) {
+            signIn();
         }
     }
 
@@ -198,10 +206,22 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
             credential.setSelectedAccountName(userEmail);
 
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
+            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
-            //updateUI(false);
+            updateUI(false);
+        }
+    }
+
+    private void updateUI(boolean b) {
+        if (b) {
+            btn_singIn.setVisibility(View.INVISIBLE);
+            btn_like.setVisibility(View.VISIBLE);
+            btn_dislike.setVisibility(View.VISIBLE);
+        } else {
+            btn_singIn.setVisibility(View.VISIBLE);
+            btn_like.setVisibility(View.INVISIBLE);
+            btn_dislike.setVisibility(View.INVISIBLE);
         }
     }
 

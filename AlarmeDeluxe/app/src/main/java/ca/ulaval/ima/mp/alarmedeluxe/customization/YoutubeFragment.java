@@ -1,15 +1,11 @@
 package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +15,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.YouTubeScopes;
 import com.google.api.services.youtube.model.SearchResult;
-import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +29,6 @@ import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmTypeFactory;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.DividerItemDecoration;
 import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
 import ca.ulaval.ima.mp.alarmedeluxe.youtube.YoutubeSearch;
-
-import static com.google.android.gms.internal.zzs.TAG;
 
 public class YoutubeFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener, YoutubeSearch.AsyncYoutubeResponse {
 

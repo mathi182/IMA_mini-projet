@@ -3,7 +3,6 @@ package ca.ulaval.ima.mp.alarmedeluxe.domain.types;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;

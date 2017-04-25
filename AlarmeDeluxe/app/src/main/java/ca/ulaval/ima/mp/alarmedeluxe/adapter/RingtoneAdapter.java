@@ -3,12 +3,12 @@ package ca.ulaval.ima.mp.alarmedeluxe.adapter;
 import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;

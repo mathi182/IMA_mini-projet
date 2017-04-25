@@ -1,7 +1,6 @@
 package ca.ulaval.ima.mp.alarmedeluxe.customization;
 
 import android.database.Cursor;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
