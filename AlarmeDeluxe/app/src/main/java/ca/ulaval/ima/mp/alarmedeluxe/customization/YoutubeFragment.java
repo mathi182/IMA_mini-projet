@@ -46,14 +46,12 @@ import ca.ulaval.ima.mp.alarmedeluxe.youtube.YoutubeSearch;
 
 import static com.google.android.gms.internal.zzs.TAG;
 
-public class YoutubeFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, SearchView.OnQueryTextListener, YoutubeSearch.AsyncYoutubeResponse {
+public class YoutubeFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener, YoutubeSearch.AsyncYoutubeResponse {
 
     private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView, txt_noYoutube_alarm;
+    private TextView txt_noYoutube_alarm;
     private Button  btn_newYoutubeAlarm;
     private int RC_SIGN_IN = 42;
-    private YouTube youTube;
-    private TextView currentRating;
     private SearchView searchView;
     private RecyclerView youtubeListSearch, alarmTypeList;
     private List<SearchResult> results = new ArrayList<>();
@@ -64,40 +62,6 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //public GoogleSignInOptions.Builder requestScopes (Scope scope, Scope... scopes)
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestScopes(new Scope(YouTubeScopes.YOUTUBE_FORCE_SSL))
-                .requestEmail()
-                .requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
-                .build();
-
-        // Build a GoogleApiClient with access to the Google Sign-In API and the
-        // options specified by gso.
-        List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube.upload");
-
-        try {
-            if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
-                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .build();
-
-                gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(new Scope("https://www.googleapis.com/auth/youtube"))
-                        .requestEmail()
-                        .requestIdToken("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com")
-                        .build();
-
-                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .build();
-            }
-        } catch (IllegalStateException ex) {
-
-        }
-        // Set the dimensions of the sign-in button.
         View view = inflater.inflate(R.layout.fragment_youtube, container, false);
         database = new DBHelper(getContext());
 
@@ -107,9 +71,6 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
         youtubeListSearch.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         youtubeListSearch.setItemAnimator(new DefaultItemAnimator());
         youtubeListSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
-
-        //signOutButton = (Button) view.findViewById(R.id.sign_out_button);
-        //mStatusTextView = (TextView) view.findViewById(R.id.connection_status);
 
         txt_noYoutube_alarm = (TextView)view.findViewById(R.id.txt_no_youtube_alarms);
         searchView = (SearchView)view.findViewById(R.id.txt_youtube_search);
@@ -137,60 +98,6 @@ public class YoutubeFragment extends Fragment implements GoogleApiClient.Connect
 
     public void updateAlarmTypeList() {
 
-    }
-/*
-    @Background
-    public void getVideoRating(){
-
-        List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
-        //Credential credential = YoutubeAuth.authorize(scopes, "getrating");
-        youTube = new YouTube.Builder(new NetHttpTransport(),
-                new JacksonFactory(), new HttpRequestInitializer() {
-            @Override
-            public void initialize(HttpRequest hr) throws IOException {}
-        })
-                .setApplicationName(getResources().getString(R.string.app_name))
-
-                //.setGoogleClientRequestInitializer(new YouTubeRequestInitializer(getResources().getString(R.string.server_client_id)))
-                .build();
-        try {
-
-            YouTube.Videos.GetRating request = youTube.videos().getRating(url);
-            request.setKey("lDMenZDhmxb385ddSx_rWDAE");
-            request.setOauthToken("");
-            request.setId("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com");
-            VideoGetRatingResponse response = request.execute();
-            showRating(response.getItems().get(0).getRating());
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @UiThread
-    public void showRating(String rating){
-
-        currentRating.setText(rating);
-    }*/
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.e("YOUTUBE", "Connected");
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.e("YOUTUBE", "Suspended");
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.e("YOUTUBE", "Failed");
-    }
-
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent,RC_SIGN_IN);
     }
 
     @Override

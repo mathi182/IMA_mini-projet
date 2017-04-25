@@ -10,7 +10,6 @@ import ca.ulaval.ima.mp.alarmedeluxe.R;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.AccelerometerFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.HomeFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.LuminosityFragment;
-import ca.ulaval.ima.mp.alarmedeluxe.customization.MathsFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.SettingsFragment;
 import ca.ulaval.ima.mp.alarmedeluxe.customization.YoutubeFragment;
 

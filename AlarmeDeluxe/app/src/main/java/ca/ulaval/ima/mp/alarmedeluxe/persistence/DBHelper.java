@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
@@ -14,9 +13,7 @@ import ca.ulaval.ima.mp.alarmedeluxe.domain.Alarm;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AccelerometerAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmTypeFactory;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.types.GeolocationAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.LuminosityAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.types.MathsAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.StandardAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.YoutubeAlarmType;
 
@@ -85,8 +82,6 @@ public class DBHelper extends SQLiteOpenHelper {
         insertAlarmType(new AccelerometerAlarmType(), db);
         insertAlarmType(new LuminosityAlarmType(), db);
         insertAlarmType(new YoutubeAlarmType(), db);
-        insertAlarmType(new MathsAlarmType(), db);
-        insertAlarmType(new GeolocationAlarmType(), db);
     }
 
     @Override

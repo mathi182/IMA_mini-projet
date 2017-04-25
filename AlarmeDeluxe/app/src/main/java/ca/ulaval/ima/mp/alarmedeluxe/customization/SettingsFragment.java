@@ -150,7 +150,7 @@ public class SettingsFragment extends Fragment {
             int currentPosition = alarmsCursor.getPosition();
             alarms[currentPosition] = ringtoneMgr.getRingtoneUri(currentPosition);
         }
-        alarmsCursor.close();
+
         ringtones.clear();
         ringtones.addAll(Arrays.asList(alarms));
         adapter.notifyDataSetChanged();

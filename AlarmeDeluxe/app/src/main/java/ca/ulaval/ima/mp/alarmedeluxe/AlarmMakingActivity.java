@@ -22,7 +22,6 @@ import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AccelerometerAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.AlarmTypeFactory;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.LuminosityAlarmType;
-import ca.ulaval.ima.mp.alarmedeluxe.domain.types.MathsAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.StandardAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.domain.types.YoutubeAlarmType;
 import ca.ulaval.ima.mp.alarmedeluxe.persistence.DBHelper;
