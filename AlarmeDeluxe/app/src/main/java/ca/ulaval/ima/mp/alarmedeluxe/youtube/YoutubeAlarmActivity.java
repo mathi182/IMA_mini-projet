@@ -135,12 +135,15 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
                     break;
                 case R.id.btnLike:
                     new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[]{"like", alarm.getType().getURL()});
+                    showRating("like");
                     break;
                 case R.id.btnDislike:
                     new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[]{"dislike", alarm.getType().getURL()});
+                    showRating("dislike");
                     break;
                 case R.id.btnNeutral:
                     new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[]{"none", alarm.getType().getURL()});
+                    showRating("none");
                     break;
             }
         }
@@ -251,10 +254,6 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
     public void processFinish(Intent output) {
         if (output != null) {
             startActivityForResult(output, RC_REAUTHORIZE);
-        }
-        else{
-
-            getVideoRating();
         }
     }
 }

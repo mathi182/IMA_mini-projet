@@ -33,7 +33,6 @@ public class YoutubeVideoRatingFetch extends AsyncTask<String, Void, String> {
 
                 .build();
         try {
-            SystemClock.sleep(6000);
             YouTube.Videos.GetRating request = youtube.videos().getRating(params[0]);
             VideoGetRatingResponse response = request.execute();
             return response.getItems().get(0).getRating();
