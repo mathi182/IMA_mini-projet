@@ -56,4 +56,15 @@
         android:layout_marginBottom="72dp"
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnNeutral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Neutral"
+        android:layout_below="@+id/lblRating"
+        android:layout_alignLeft="@+id/sign_in_button"
+        android:layout_alignStart="@+id/sign_in_button"
+        android:layout_alignBottom="@+id/btnLike"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

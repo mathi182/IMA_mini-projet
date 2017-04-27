@@ -2,7 +2,9 @@ package ca.ulaval.ima.mp.alarmedeluxe.youtube;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -21,28 +23,19 @@ public class YoutubeVideoRatingFetch extends AsyncTask<String, Void, String> {
     public AsyncYoutubeResponse delegate = null;
     private YouTube youtube;
     private Context context;
+    private String appName;
+    private GoogleAccountCredential credential;
 
     @Override
     protected String doInBackground(String... params) {
-        List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
-        //Credential credential = YoutubeAuth.authorize(scopes, "getrating");
-        youtube = new YouTube.Builder(new NetHttpTransport(),
-                new JacksonFactory(), new HttpRequestInitializer() {
-            @Override
-            public void initialize(HttpRequest hr) throws IOException {}
-        })
-                .setApplicationName(context.getString(R.string.app_name))
+        youtube = new YouTube.Builder(new NetHttpTransport(),new JacksonFactory(),credential)
+                .setApplicationName(appName)
 
-                //.setGoogleClientRequestInitializer(new YouTubeRequestInitializer(getResources().getString(R.string.server_client_id)))
                 .build();
         try {
-
+            SystemClock.sleep(6000);
             YouTube.Videos.GetRating request = youtube.videos().getRating(params[0]);
-            request.setKey("lDMenZDhmxb385ddSx_rWDAE");
-            request.setOauthToken("");
-            request.setId("752816531302-jmo22jf1v826ta5ei8lvuf7gv44kic29.apps.googleusercontent.com");
             VideoGetRatingResponse response = request.execute();
-
             return response.getItems().get(0).getRating();
 
         } catch (IOException e) {
@@ -60,8 +53,10 @@ public class YoutubeVideoRatingFetch extends AsyncTask<String, Void, String> {
         void processFinish(String output);
     }
 
-    public YoutubeVideoRatingFetch(AsyncYoutubeResponse response, Context context) {
+    public YoutubeVideoRatingFetch(AsyncYoutubeResponse response, Context context,String appName, GoogleAccountCredential credential) {
         delegate = response;
         this.context = context;
+        this.appName = appName;
+        this.credential = credential;
     }
 }

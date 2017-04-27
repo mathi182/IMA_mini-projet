@@ -1,7 +1,6 @@
 package ca.ulaval.ima.mp.alarmedeluxe.youtube;
 
 import android.Manifest;
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeScopes;
 import com.google.common.collect.Lists;
 
@@ -56,10 +54,10 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
     private TextView currentRating;
     private GoogleApiClient mGoogleApiClient;
     private int RC_SIGN_IN = 42;
-    private Button btn_like, btn_dislike;
+    private Button btn_like, btn_dislike, btn_neutral;
     private GoogleAccountCredential credential;
     private String userEmail = "";
-    private SignInButton btn_singIn;
+    private SignInButton btn_signIn;
     private List<String> scopes = Lists.newArrayList(YouTubeScopes.YOUTUBE);
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +67,12 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
 
         btn_dislike = (Button)findViewById(R.id.btnDislike);
         btn_like = (Button)findViewById(R.id.btnLike);
+        btn_neutral =(Button)findViewById(R.id.btnNeutral);
         btn_like.setOnClickListener(this);
         btn_dislike.setOnClickListener(this);
-        btn_singIn = (SignInButton)findViewById(R.id.sign_in_button);
-        btn_singIn.setOnClickListener(this);
+        btn_signIn = (SignInButton)findViewById(R.id.sign_in_button);
+        btn_signIn.setOnClickListener(this);
+        btn_neutral.setOnClickListener(this);
 
         // Show the activity over the lock screen
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
@@ -103,7 +103,7 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
 
             }
         };
-        getVideoRating();
+
 
         youTubePlayerView.initialize(getResources().getString(R.string.api_key),onInitializedListener);
 
@@ -112,7 +112,7 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
 
     @Background
     public void getVideoRating(){
-        new YoutubeVideoRatingFetch(this, getApplicationContext()).execute(url);
+        new YoutubeVideoRatingFetch(this, getApplicationContext(),userEmail, credential).execute(alarm.getType().getURL());
 
     }
 
@@ -139,6 +139,9 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
                 case R.id.btnDislike:
                     new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[]{"dislike", alarm.getType().getURL()});
                     break;
+                case R.id.btnNeutral:
+                    new YoutubeSetVideoRating(this, userEmail, credential).execute(new String[]{"none", alarm.getType().getURL()});
+                    break;
             }
         }
     }
@@ -164,7 +167,7 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
 
     @Override
     public void processFinish(String output) {
-        Log.e("WORKS", "YoutubeAlarmActivity");
+        showRating(output);
     }
 
     @Override
@@ -205,6 +208,7 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
             credential = GoogleAccountCredential.usingOAuth2(this, scopes);
             credential.setSelectedAccountName(userEmail);
 
+            getVideoRating();
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             updateUI(true);
         } else {
@@ -215,13 +219,15 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
 
     private void updateUI(boolean b) {
         if (b) {
-            btn_singIn.setVisibility(View.INVISIBLE);
+            btn_signIn.setVisibility(View.INVISIBLE);
             btn_like.setVisibility(View.VISIBLE);
             btn_dislike.setVisibility(View.VISIBLE);
+            btn_neutral.setVisibility(View.VISIBLE);
         } else {
-            btn_singIn.setVisibility(View.VISIBLE);
+            btn_signIn.setVisibility(View.VISIBLE);
             btn_like.setVisibility(View.INVISIBLE);
             btn_dislike.setVisibility(View.INVISIBLE);
+            btn_neutral.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -245,6 +251,10 @@ public class YoutubeAlarmActivity extends YouTubeBaseActivity implements GoogleA
     public void processFinish(Intent output) {
         if (output != null) {
             startActivityForResult(output, RC_REAUTHORIZE);
+        }
+        else{
+
+            getVideoRating();
         }
     }
 }
